@@ -43,7 +43,7 @@ class soil_water_dynamics_PP(SimulationObject):
         p = self.params
         s = self.states
         WA = 1000. * k.ROOTD * p.WCFC
-        WC = 0.001 * WA / p.ROOTDI
+        WC = 0.001 * WA / k.ROOTD
         s.WA = WA
         s.WC = WC
 
