@@ -1,12 +1,13 @@
 import numpy as np
+
 from pcse.traitlets import Bool, Float, Instance
 from pcse.base import ParamTemplate, RatesTemplate, SimulationObject, StatesTemplate
 from pcse.crop.lintul_cassava.lintul_cassava_util import afgen2cols
 
 class npk_stress(SimulationObject):
+    NUTRIENT_LIMITED = True
 
     class Parameters(ParamTemplate):
-        NUTRIENT_LIMITED = Bool()
         FR_MAX = Float()
         K_MAX = Float()
         K_NPK_NI = Float()
@@ -166,7 +167,7 @@ class npk_stress(SimulationObject):
         NPKI = self.Mirrored_Monod(x=NNI * PNI * KNI, K=p.K_NPK_NI, Kmax=p.K_MAX)
 
         # Nutrient limitation reduction factor when nutrient limition is switched on
-        if p.NUTRIENT_LIMITED:
+        if self.NUTRIENT_LIMITED:
             # Simple based on daily values
             NPKI = max(0, min(1, NPKI))  # (-)
             # Shortly after emergence nutrient stress does not occur

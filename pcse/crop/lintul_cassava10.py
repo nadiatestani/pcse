@@ -75,3 +75,8 @@ class LINTUL_CASSAVA(SimulationObject):
         self.biomass_partitioning.integrate(day, drv, delt)
         self.crop_nutrient_dynamics.integrate(day, drv, delt)
         self.green_leaf_area.integrate(day, drv)
+
+class LINTUL_CASSAVA_NO_NUTRIENT_STRESS(LINTUL_CASSAVA):
+    def initialize(self, day, kiosk, parvalues):
+        super().initialize(day, kiosk, parvalues)
+        self.npk_stress.NUTRIENT_LIMITED = False

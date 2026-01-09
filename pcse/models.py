@@ -124,6 +124,13 @@ class Lintul_Cassava10_WNLP(Engine):
     __waterbalance__ = None
     __nitrogenbalance__ = None
 
+class Lintul_Cassava10_NLP(Engine):
+    config = "Lintul_cassava10_WNLP.conf"
+    __productionlevel__ = "NLP"
+    __cropmodel__ = "LINTUL_CASSAVA"
+    __cropmodelversion__ = "1.0"
+    __waterbalance__ = None
+    __nitrogenbalance__ = None
 
 class FAO_WRSI10_WLP_CWB(Engine):
     """Convenience class for computing actual crop water use using the Water Requirements
