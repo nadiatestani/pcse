@@ -38,15 +38,13 @@ class evapotranspiration(SimulationObject):
         p = self.params
         r = self.rates
 
-        # Soil water content
-        WC = 0.001 * k.WA / k.ROOTD  # m3 m-3
         # The amount of soil water at air dryness (AD) and field capacity (FC).
         WAAD = 1000. * p.WCAD * k.ROOTD  # mm
         WAFC = 1000. * p.SMFCF * k.ROOTD  # mm
 
         # Evaporation is decreased when water content is below field capacity,
         # but continues until WC = WCAD. It is ensured to stay within 0-1 range
-        limit_evap = (WC - p.WCAD) / (p.SMFCF - p.WCAD)  # (-)
+        limit_evap = (k.SM - p.WCAD) / (p.SMFCF - p.WCAD)  # (-)
         limit_evap = min(1, max(0, limit_evap))  # (-)
         EVAP = k.RPEVAP * limit_evap  # mm d-1
 
@@ -57,14 +55,14 @@ class evapotranspiration(SimulationObject):
 
         # If water content is below the critical soil water content a correction factor is calculated
         # that reduces the transpiration until it stops at WC = WCWP.
-        FR = (WC - p.SMW) / (WCCR - p.SMW)  # (-)
+        FR = (k.SM - p.SMW) / (WCCR - p.SMW)  # (-)
 
         # If water content is above the critical soil water content a correction factor is calculated
         # that reduces the transpiration when the crop is hampered by waterlogging (WC > WCWET).
-        FRW = (p.SM0 - WC) / (p.SM0 - p.WCWET)  # (-)
+        FRW = (p.SM0 - k.SM) / (p.SM0 - p.WCWET)  # (-)
 
         # Replace values for wet days with a higher water content than the critical water content.
-        if WC > WCCR:
+        if k.SM > WCCR:
             # Original R code: FR[WC > WCCR] = FRW[WC > WCCR]  # (-)
             FR = FRW
 
@@ -81,7 +79,7 @@ class evapotranspiration(SimulationObject):
             # Original R code: aux[aux <= 0] = 1  # mm d-1
             aux = 1
 
-        AVAILF = min(1, (k.WA - WAAD) / (delt * aux))  # mm
+        AVAILF = min(1, (k.W - WAAD) / (delt * aux))  # mm
         TRAN = TRAN * AVAILF
         EVAP = EVAP * AVAILF
 

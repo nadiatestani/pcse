@@ -70,14 +70,14 @@ class dormancy(SimulationObject):
 
         # The crop enters the dormancy phase as the soil water content is lower than the soil water content at
         # severe drought and as the LAI is lower than the minimal LAI.
-        if (k.WC-k.WCSD <= 0)  & (k.LAI - p.LAI_MIN <= 0):
+        if (k.SM-k.WCSD <= 0)  & (k.LAI - p.LAI_MIN <= 0):
             dormancy = 1
         else:
             dormancy = 0
 
         # # The crop goes out of dormancy if the water content is higher than a certain recovery water content and as the
         # # water content is larger than the wilting point soil moisture content.
-        if (k.WC - p.RECOV * k.WCCR >= 0) & (k.WC - p.SMW >= 0):
+        if (k.SM - p.RECOV * k.WCCR >= 0) & (k.SM - p.SMW >= 0):
             pushdor = 1
         else:
             pushdor = 0

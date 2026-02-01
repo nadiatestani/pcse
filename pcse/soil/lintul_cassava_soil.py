@@ -17,8 +17,8 @@ class soil_water_dynamics_PP(SimulationObject):
         ROOTDI = Float()
 
     class StateVariables(StatesTemplate):
-        WA = Float()
-        WC = Float()
+        W = Float()
+        SM = Float()
 
     class RateVariables(RatesTemplate):
         pass
@@ -28,12 +28,12 @@ class soil_water_dynamics_PP(SimulationObject):
         self.rates = self.RateVariables(kiosk, publish = [])
         self.params = self.Parameters(parameters)
         p = self.params
-        WA = 1000. * p.ROOTDI * p.SMFCF
-        WC = 0.001 * WA / p.ROOTDI
+        W = 1000. * p.ROOTDI * p.SMFCF
+        SM = 0.001 * W / p.ROOTDI
         self.states = self.StateVariables(kiosk,
-                                          publish = ["WA", "WC"],
-                                          WA = WA,
-                                          WC = WC
+                                          publish = ["SM", "W"],
+                                          W = W,
+                                          SM = SM
                                           )
     def calc_rates(self, day, drv):
         pass
@@ -42,10 +42,10 @@ class soil_water_dynamics_PP(SimulationObject):
         k = self.kiosk
         p = self.params
         s = self.states
-        WA = 1000. * k.ROOTD * p.SMFCF
-        WC = 0.001 * WA / k.ROOTD
-        s.WA = WA
-        s.WC = WC
+        W = 1000. * k.ROOTD * p.SMFCF
+        SM = 0.001 * W / k.ROOTD
+        s.W = W
+        s.SM = SM
 
 class soil_water_dynamics(SimulationObject):
 
@@ -64,8 +64,8 @@ class soil_water_dynamics(SimulationObject):
         WCWET = Float()
 
     class StateVariables(StatesTemplate):
-        WA = Float()
-        WC = Float()
+        W = Float()
+        SM = Float()
         DRAIN = Float()
         RUNOFF = Float()
 
@@ -82,13 +82,13 @@ class soil_water_dynamics(SimulationObject):
         self.rates = self.RateVariables(kiosk, publish = [])
         self.params = self.Parameters(parameters)
         p = self.params
-        WA = 1000. * p.ROOTDI * p.SMFCF
-        WC = 0.001 * WA / p.ROOTDI
+        W = 1000. * p.ROOTDI * p.SMFCF
+        SM = 0.001 * W / p.ROOTDI
         WCCR = p.SMW
         self.states = self.StateVariables(kiosk,
-                                          publish = ["WA", "WC"],
-                                          WA = WA,
-                                          WC = WC,
+                                          publish = ["W", "SM"],
+                                          W = W,
+                                          SM = SM,
                                           TRAN = 0.,
                                           EVAP = 0.,
                                           PTRAN = 0.,
@@ -122,7 +122,7 @@ class soil_water_dynamics(SimulationObject):
         EXPLOR = 1000 * RROOTD * p.SMFCF  # mm d-1
 
         # Drainage and Runoff is calculated using the drunir function.
-        dr = drunir(RTRAIN, k.RNINTC, k.REVAP, k.RTRAN, p.IRRIGF, p.DRATE, delt, s.WA, ROOTD, p.SMFCF, p.SM0)
+        dr = drunir(RTRAIN, k.RNINTC, k.REVAP, k.RTRAN, p.IRRIGF, p.DRATE, delt, s.W, ROOTD, p.SMFCF, p.SM0)
         RDRAIN = dr.DRAIN
         RRUNOFF = dr.RUNOFF
         RIRRIG = dr.IRRIG
@@ -138,7 +138,7 @@ class soil_water_dynamics(SimulationObject):
         r = self.rates
         s = self.states
 
-        s.WA += r.RWA
-        s.WC = 0.001 * s.WA / k.ROOTD
+        s.W += r.RWA
+        s.SM = 0.001 * s.W / k.ROOTD
         s.RUNOFF += delt * r.RRUNOFF
         s.DRAIN += delt * r.RDRAIN

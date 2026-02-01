@@ -84,12 +84,12 @@ class leaf_senescence(SimulationObject):
         # ENSHED triggers enhanced leaf senescence due to severe drought or excessive soil water. It assumes that drought or
         # excessive water does not affect young leaves. It only affects leaves that have a reached a given fraction of the leaf
         # age.
-        if k.WC - k.WCSD >= 0:
+        if k.SM - k.WCSD >= 0:
             ENHSHED1 = 0
         else:
             ENHSHED1 = 1
 
-        if k.WC - p.WCWET >= 0:
+        if k.SM - p.WCWET >= 0:
             ENHSHED2 = 1
         else:
             ENHSHED2 = 0

@@ -41,13 +41,11 @@ class phenology(SimulationObject):
         s = self.states
 
         DTEFF = max(0, drv.TEMP - p.TBASE)      # Deg. C           : effective daily temperature
-        # Determine water content of rooted soil
-        WC = 0.001 * k.WA / k.ROOTD  # (-)
 
         # -----------------------------------------EMERGENCE-----------------------------------------------#
         # emergence occurs (1) when the temperature sum exceeds the temperature sum needed for emergence. And (2)
         # when enough water is available in the soil.
-        if (WC-p.SMW >= 0) & (k.TSUM-p.OPTEMERGTSUM >= 0):
+        if (k.SM-p.SMW >= 0) & (k.TSUM-p.OPTEMERGTSUM >= 0):
             emerg1 = 1
         else:
             emerg1 = 0

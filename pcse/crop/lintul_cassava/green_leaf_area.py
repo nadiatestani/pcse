@@ -47,7 +47,7 @@ class green_leaf_area(SimulationObject):
                     k.TRANRF * np.exp(-p.NLAI * (1 - k.NPKI)))  # m2 m-2 d-1
 
         # Growth at day of seedling emergence
-        if (k.TSUMCROP > 0) & (k.LAI == 0) & (k.WC > p.SMW):
+        if (k.TSUMCROP > 0) & (k.LAI == 0) & (k.SM > p.SMW):
             GLAI = p.LAII / delt  # m2 m-2 d-1
 
         # Growth before seedling emergence
