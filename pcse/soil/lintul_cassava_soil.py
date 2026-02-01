@@ -12,7 +12,7 @@ ha_to_m2 = 10000
 class soil_water_dynamics_PP(SimulationObject):
 
     class Parameters(ParamTemplate):
-        WCFC = Float()
+        SMFCF = Float()
         ROOTDM = Float()
         ROOTDI = Float()
 
@@ -28,7 +28,7 @@ class soil_water_dynamics_PP(SimulationObject):
         self.rates = self.RateVariables(kiosk, publish = [])
         self.params = self.Parameters(parameters)
         p = self.params
-        WA = 1000. * p.ROOTDI * p.WCFC
+        WA = 1000. * p.ROOTDI * p.SMFCF
         WC = 0.001 * WA / p.ROOTDI
         self.states = self.StateVariables(kiosk,
                                           publish = ["WA", "WC"],
@@ -42,7 +42,7 @@ class soil_water_dynamics_PP(SimulationObject):
         k = self.kiosk
         p = self.params
         s = self.states
-        WA = 1000. * k.ROOTD * p.WCFC
+        WA = 1000. * k.ROOTD * p.SMFCF
         WC = 0.001 * WA / k.ROOTD
         s.WA = WA
         s.WC = WC
@@ -57,10 +57,10 @@ class soil_water_dynamics(SimulationObject):
         ROOTDI = Float()
         TRANCO = Float()
         WCAD = Float()
-        WCFC = Float()
+        SMFCF = Float()
         WCI = Float()
-        WCST = Float()
-        WCWP = Float()
+        SM0 = Float()
+        SMW = Float()
         WCWET = Float()
 
     class StateVariables(StatesTemplate):
@@ -82,9 +82,9 @@ class soil_water_dynamics(SimulationObject):
         self.rates = self.RateVariables(kiosk, publish = [])
         self.params = self.Parameters(parameters)
         p = self.params
-        WA = 1000. * p.ROOTDI * p.WCFC
+        WA = 1000. * p.ROOTDI * p.SMFCF
         WC = 0.001 * WA / p.ROOTDI
-        WCCR = p.WCWP
+        WCCR = p.SMW
         self.states = self.StateVariables(kiosk,
                                           publish = ["WA", "WC"],
                                           WA = WA,
@@ -119,10 +119,10 @@ class soil_water_dynamics(SimulationObject):
         # ----------------------------------------WATER BALANCE---------------------------------------------#
         # Explored water of new soil water layers by the roots, explored soil is assumed to have a FC soil moisture
         # content).
-        EXPLOR = 1000 * RROOTD * p.WCFC  # mm d-1
+        EXPLOR = 1000 * RROOTD * p.SMFCF  # mm d-1
 
         # Drainage and Runoff is calculated using the drunir function.
-        dr = drunir(RTRAIN, k.RNINTC, k.REVAP, k.RTRAN, p.IRRIGF, p.DRATE, delt, s.WA, ROOTD, p.WCFC, p.WCST)
+        dr = drunir(RTRAIN, k.RNINTC, k.REVAP, k.RTRAN, p.IRRIGF, p.DRATE, delt, s.WA, ROOTD, p.SMFCF, p.SM0)
         RDRAIN = dr.DRAIN
         RRUNOFF = dr.RUNOFF
         RIRRIG = dr.IRRIG

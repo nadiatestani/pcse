@@ -13,7 +13,7 @@ class dormancy(SimulationObject):
         TSUMREDISTMAX = Float()
         WSOREDISTFRACMAX = Float()
         WLVGNEWN = Float()
-        WCWP = Float()
+        SMW = Float()
 
     class RateVariables(RatesTemplate):
         RDORMTSUM = Float()
@@ -77,7 +77,7 @@ class dormancy(SimulationObject):
 
         # # The crop goes out of dormancy if the water content is higher than a certain recovery water content and as the
         # # water content is larger than the wilting point soil moisture content.
-        if (k.WC - p.RECOV * k.WCCR >= 0) & (k.WC - p.WCWP >= 0):
+        if (k.WC - p.RECOV * k.WCCR >= 0) & (k.WC - p.SMW >= 0):
             pushdor = 1
         else:
             pushdor = 0

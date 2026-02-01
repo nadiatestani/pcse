@@ -5,7 +5,7 @@ class phenology(SimulationObject):
     class Parameters(ParamTemplate):
         OPTEMERGTSUM = Float()
         TBASE = Float()
-        WCWP = Float()
+        SMW = Float()
 
     class RateVariables(RatesTemplate):
         RTSUM = Float()
@@ -47,7 +47,7 @@ class phenology(SimulationObject):
         # -----------------------------------------EMERGENCE-----------------------------------------------#
         # emergence occurs (1) when the temperature sum exceeds the temperature sum needed for emergence. And (2)
         # when enough water is available in the soil.
-        if (WC-p.WCWP >= 0) & (k.TSUM-p.OPTEMERGTSUM >= 0):
+        if (WC-p.SMW >= 0) & (k.TSUM-p.OPTEMERGTSUM >= 0):
             emerg1 = 1
         else:
             emerg1 = 0

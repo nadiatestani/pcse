@@ -7,7 +7,7 @@ class fibrous_root_growth(SimulationObject):
         ROOTDI = Float()
         ROOTDM = Float()
         RRDMAX = Float()
-        WCWP = Float()
+        SMW = Float()
 
     class RateVariables(RatesTemplate):
         RROOTD = Float()
@@ -38,7 +38,7 @@ class fibrous_root_growth(SimulationObject):
         r = self.rates
         s = self.states
 
-        if (s.ROOTD-p.ROOTDM < 0) & (k.WC-p.WCWP >= 0):
+        if (s.ROOTD-p.ROOTDM < 0) & (k.WC-p.SMW >= 0):
             RROOTD = p.RRDMAX * k.EMERG  # mm d-1
         else:
             RROOTD = 0

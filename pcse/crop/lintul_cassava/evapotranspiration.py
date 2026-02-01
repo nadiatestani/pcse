@@ -6,10 +6,10 @@ class evapotranspiration(SimulationObject):
         TRANCO = Float()
         TWCSD = Float()
         WCAD = Float()
-        WCFC = Float()
-        WCST = Float()
+        SMFCF = Float()
+        SM0 = Float()
         WCWET = Float()
-        WCWP = Float()
+        SMW = Float()
 
     class RateVariables(RatesTemplate):
         REVAP = Float()
@@ -42,26 +42,26 @@ class evapotranspiration(SimulationObject):
         WC = 0.001 * k.WA / k.ROOTD  # m3 m-3
         # The amount of soil water at air dryness (AD) and field capacity (FC).
         WAAD = 1000. * p.WCAD * k.ROOTD  # mm
-        WAFC = 1000. * p.WCFC * k.ROOTD  # mm
+        WAFC = 1000. * p.SMFCF * k.ROOTD  # mm
 
         # Evaporation is decreased when water content is below field capacity,
         # but continues until WC = WCAD. It is ensured to stay within 0-1 range
-        limit_evap = (WC - p.WCAD) / (p.WCFC - p.WCAD)  # (-)
+        limit_evap = (WC - p.WCAD) / (p.SMFCF - p.WCAD)  # (-)
         limit_evap = min(1, max(0, limit_evap))  # (-)
         EVAP = k.RPEVAP * limit_evap  # mm d-1
 
         # Water content at severe drought
-        WCSD = p.WCWP * p.TWCSD
+        WCSD = p.SMW * p.TWCSD
         # Critical water content
-        WCCR = p.WCWP + max(WCSD - p.WCWP, k.RPTRAN / (k.RPTRAN + p.TRANCO) * (p.WCFC - p.WCWP))
+        WCCR = p.SMW + max(WCSD - p.SMW, k.RPTRAN / (k.RPTRAN + p.TRANCO) * (p.SMFCF - p.SMW))
 
         # If water content is below the critical soil water content a correction factor is calculated
         # that reduces the transpiration until it stops at WC = WCWP.
-        FR = (WC - p.WCWP) / (WCCR - p.WCWP)  # (-)
+        FR = (WC - p.SMW) / (WCCR - p.SMW)  # (-)
 
         # If water content is above the critical soil water content a correction factor is calculated
         # that reduces the transpiration when the crop is hampered by waterlogging (WC > WCWET).
-        FRW = (p.WCST - WC) / (p.WCST - p.WCWET)  # (-)
+        FRW = (p.SM0 - WC) / (p.SM0 - p.WCWET)  # (-)
 
         # Replace values for wet days with a higher water content than the critical water content.
         if WC > WCCR:
@@ -94,8 +94,8 @@ class evapotranspiration(SimulationObject):
         # Soil moisture content at severe drought and the critical soil moisture content are calculated to see if
         # drought stress occurs in the crop. The critical soil moisture content depends on the transpiration coefficient
         # which is a measure of how drought resistant the crop is.
-        WCSD = p.WCWP * p.TWCSD
-        WCCR = p.WCWP + max(WCSD-p.WCWP, (k.RPTRAN / (k.RPTRAN + p.TRANCO) * (p.WCFC-p.WCWP)))
+        WCSD = p.SMW * p.TWCSD
+        WCCR = p.SMW + max(WCSD-p.SMW, (k.RPTRAN / (k.RPTRAN + p.TRANCO) * (p.SMFCF-p.SMW)))
 
         r.REVAP = EVAP
         r.RTRAN = TRAN
