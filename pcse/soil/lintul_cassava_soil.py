@@ -42,8 +42,8 @@ class soil_water_dynamics_PP(SimulationObject):
         k = self.kiosk
         p = self.params
         s = self.states
-        W = 1000. * k.ROOTD * p.SMFCF
-        SM = 0.001 * W / k.ROOTD
+        W = 1000. * k.RD * p.SMFCF
+        SM = 0.001 * W / k.RD
         s.W = W
         s.SM = SM
 
@@ -103,8 +103,8 @@ class soil_water_dynamics(SimulationObject):
         s = self.states
         k = self.kiosk
         if "EMERG" in k.keys():
-            ROOTD = k.ROOTD
-            RROOTD = k.RROOTD
+            ROOTD = k.RD
+            RROOTD = k.RRD
         else:
             ROOTD = p.ROOTDI
             RROOTD = 0.
@@ -139,6 +139,6 @@ class soil_water_dynamics(SimulationObject):
         s = self.states
 
         s.W += r.RWA
-        s.SM = 0.001 * s.W / k.ROOTD
+        s.SM = 0.001 * s.W / k.RD
         s.RUNOFF += delt * r.RRUNOFF
         s.DRAIN += delt * r.RDRAIN

@@ -10,22 +10,22 @@ class fibrous_root_growth(SimulationObject):
         SMW = Float()
 
     class RateVariables(RatesTemplate):
-        RROOTD = Float()
+        RRD = Float()
 
     class StateVariables(StatesTemplate):
-        ROOTD = Float()
+        RD = Float()
 
     def initialize(self, day, kiosk, parvalues):
         self.kiosk = kiosk
         self.params = self.Parameters(parvalues)
         k = self.kiosk
         p = self.params
-        ROOTD = p.ROOTDI
+        RD = p.ROOTDI
         self.rates = self.RateVariables(kiosk,
-                                        publish = ["RROOTD"])
+                                        publish = ["RRD"])
         self.states = self.StateVariables(kiosk,
-                                          publish = ["ROOTD"],
-                                          ROOTD = ROOTD)
+                                          publish = ["RD"],
+                                          RD = RD)
 
     def calc_rates(self,  day, drv, delt=1):
         # If the soil water content drops to, or below, wilting point fibrous root growth stops.
@@ -38,14 +38,14 @@ class fibrous_root_growth(SimulationObject):
         r = self.rates
         s = self.states
 
-        if (s.ROOTD-p.ROOTDM < 0) & (k.SM-p.SMW >= 0):
-            RROOTD = p.RRDMAX * k.EMERG  # mm d-1
+        if (s.RD-p.ROOTDM < 0) & (k.SM-p.SMW >= 0):
+            RRD = p.RRDMAX * k.EMERG  # mm d-1
         else:
-            RROOTD = 0
+            RRD = 0
 
-        r.RROOTD = RROOTD
+        r.RRD = RRD
 
     def integrate(self, day, drv, delt = 1):
         r = self.rates
         s = self.states
-        s.ROOTD += r.RROOTD * delt
+        s.RD += r.RRD * delt
