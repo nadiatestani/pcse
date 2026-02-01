@@ -41,10 +41,10 @@ class LINTUL_CASSAVA(SimulationObject):
         self.states = self.StateVariables(kiosk, publish = [])
         self.rates = self.RateVariables(kiosk, publish = [])
 
-        self.phenology = phenology(day, kiosk, parvalues)
-        self.fibrous_root_growth = fibrous_root_growth(day, kiosk, parvalues)
         self.penman = penman(day, kiosk, parvalues)
         self.evapotranspiration = evapotranspiration(day, kiosk, parvalues)
+        self.phenology = phenology(day, kiosk, parvalues)
+        self.fibrous_root_growth = fibrous_root_growth(day, kiosk, parvalues)
         self.npk_stress = npk_stress(day, kiosk, parvalues)
         self.dormancy = dormancy(day, kiosk, parvalues)
         self.leaf_senescence = leaf_senescence(day, kiosk, parvalues)
@@ -54,10 +54,10 @@ class LINTUL_CASSAVA(SimulationObject):
         self.green_leaf_area = green_leaf_area(day, kiosk, parvalues)
 
     def calc_rates(self, day, drv, delt = 1):
-        self.phenology.calc_rates(day, drv, delt)
-        self.fibrous_root_growth.calc_rates(day, drv, delt)
         self.penman(day, drv)
         self.evapotranspiration(day, drv)
+        self.phenology.calc_rates(day, drv, delt)
+        self.fibrous_root_growth.calc_rates(day, drv, delt)
         self.npk_stress(day, drv)
         self.dormancy.calc_rates(day, drv, delt)
         self.light_interception_and_growth.calc_rates(day, drv, delt)
