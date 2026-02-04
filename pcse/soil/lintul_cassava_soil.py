@@ -13,7 +13,7 @@ class soil_water_dynamics_PP(SimulationObject):
 
     class Parameters(ParamTemplate):
         SMFCF = Float()
-        ROOTDM = Float()
+        RDMSOL = Float()
         ROOTDI = Float()
 
     class StateVariables(StatesTemplate):
@@ -28,8 +28,8 @@ class soil_water_dynamics_PP(SimulationObject):
         self.rates = self.RateVariables(kiosk, publish = [])
         self.params = self.Parameters(parameters)
         p = self.params
-        W = 1000. * p.ROOTDI * p.SMFCF
-        SM = 0.001 * W / p.ROOTDI
+        W = 1000. * p.RDMSOL * p.SMFCF
+        SM = 0.001 * W / p.RDMSOL
         self.states = self.StateVariables(kiosk,
                                           publish = ["SM", "W"],
                                           W = W,
