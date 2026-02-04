@@ -1,3 +1,5 @@
+m_to_mm = 1e3
+
 class drunir():
     # -------------------------------------------------------------------------------------------------#
     # FUNCTION drunir
@@ -11,12 +13,13 @@ class drunir():
     # compute rates of drainage, runoff and irrigation.
     #
     # --------------------------------------------------------------------------------------------------#
+
     def __init__(self, RAIN, RNINTC, EVAP, TRAN, IRRIGF, DRATE, DELT, WA, ROOTD, WCFC, WCST):
         # Soil water content
-        WC = 0.001 * WA / ROOTD  # m3 m-3
+        WC = WA / (ROOTD * m_to_mm)  # m3 m-3
         # The amount of soil water at air dryness (AD) and field capacity (FC).
-        WAFC = 1000 * WCFC * ROOTD  # mm
-        WAST = 1000 * WCST * ROOTD  # mm
+        WAFC = m_to_mm * WCFC * ROOTD  # mm
+        WAST = m_to_mm * WCST * ROOTD  # mm
 
         # Drainage below the root zone occurs when the amount of water in the soil exceeds field capacity
         # or when the amount of rainfall in excess of interception and evapotranspiration fills up soil
