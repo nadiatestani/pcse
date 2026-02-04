@@ -50,14 +50,11 @@ class soil_water_dynamics(SimulationObject):
 
     class Parameters(ParamTemplate):
         DRATE = Float()
-        FRACRNINTC = Float()
         IRRIGF = Float()
         RRDMAX = Float()
         RDI = Float()
-        TRANCO = Float()
         WCAD = Float()
         SMFCF = Float()
-        WCI = Float()
         SM0 = Float()
         SMW = Float()
         WCWET = Float()
