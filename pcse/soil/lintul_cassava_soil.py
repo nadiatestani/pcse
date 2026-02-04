@@ -120,7 +120,7 @@ class soil_water_dynamics(SimulationObject):
         # ----------------------------------------WATER BALANCE---------------------------------------------#
         # Explored water of new soil water layers by the roots, explored soil is assumed to have a FC soil moisture
         # content).
-        EXPLOR = 1000 * RROOTD * p.SMFCF  # mm d-1
+        EXPLOR = m_to_mm * RROOTD * p.SMFCF  # mm d-1
 
         # Drainage and Runoff is calculated using the drunir function.
         dr = drunir(RTRAIN, k.RNINTC, k.REVAP, k.RTRAN, p.IRRIGF, p.DRATE, delt, s.W, ROOTD, p.SMFCF, p.SM0)
