@@ -30,7 +30,7 @@ class soil_water_dynamics_PP(SimulationObject):
         self.params = self.Parameters(parameters)
         p = self.params
         W = m_to_mm * p.RDMSOL * p.SMFCF
-        SM = 0.001 * W / p.RDMSOL
+        SM = W / (p.RDMSOL * m_to_mm)
         self.states = self.StateVariables(kiosk,
                                           publish = ["SM", "W"],
                                           W = W,
@@ -140,6 +140,6 @@ class soil_water_dynamics(SimulationObject):
         s = self.states
 
         s.W += r.RWA
-        s.SM = 0.001 * s.W / k.RD
+        s.SM = s.W / (k.RD * m_to_mm)
         s.RUNOFF += delt * r.RRUNOFF
         s.DRAIN += delt * r.RDRAIN
