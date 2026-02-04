@@ -3,6 +3,7 @@ from pcse.base import ParamTemplate, RatesTemplate, SimulationObject, StatesTemp
 from pcse.traitlets import Float
 
 cm_to_mm = 1e1
+m_to_mm = 1e3
 J_to_MJ = 1e-6
 m2_to_ha = 1e-4
 hPa_to_kPa = 1e-1
@@ -28,7 +29,7 @@ class soil_water_dynamics_PP(SimulationObject):
         self.rates = self.RateVariables(kiosk, publish = [])
         self.params = self.Parameters(parameters)
         p = self.params
-        W = 1000. * p.RDMSOL * p.SMFCF
+        W = m_to_mm * p.RDMSOL * p.SMFCF
         SM = 0.001 * W / p.RDMSOL
         self.states = self.StateVariables(kiosk,
                                           publish = ["SM", "W"],
@@ -42,8 +43,8 @@ class soil_water_dynamics_PP(SimulationObject):
         k = self.kiosk
         p = self.params
         s = self.states
-        W = 1000. * k.RD * p.SMFCF
-        SM = 0.001 * W / k.RD
+        W = m_to_mm * k.RD * p.SMFCF
+        SM = W / (k.RD * m_to_mm)
         s.W = W
         s.SM = SM
 
@@ -82,8 +83,8 @@ class soil_water_dynamics(SimulationObject):
         self.rates = self.RateVariables(kiosk, publish = [])
         self.params = self.Parameters(parameters)
         p = self.params
-        W = 1000. * p.ROOTDI * p.SMFCF
-        SM = 0.001 * W / p.ROOTDI
+        W = m_to_mm * p.ROOTDI * p.SMFCF
+        SM = W / (p.ROOTDI * m_to_mm)
         WCCR = p.SMW
         self.states = self.StateVariables(kiosk,
                                           publish = ["W", "SM"],
