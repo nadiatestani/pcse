@@ -4,7 +4,7 @@ from pcse.traitlets import Float
 class fibrous_root_growth(SimulationObject):
 
     class Parameters(ParamTemplate):
-        ROOTDI = Float()
+        RDI = Float()
         RDMSOL = Float()
         RRDMAX = Float()
         SMW = Float()
@@ -20,7 +20,7 @@ class fibrous_root_growth(SimulationObject):
         self.params = self.Parameters(parvalues)
         k = self.kiosk
         p = self.params
-        RD = p.ROOTDI
+        RD = p.RDI
         self.rates = self.RateVariables(kiosk,
                                         publish = ["RRD"])
         self.states = self.StateVariables(kiosk,

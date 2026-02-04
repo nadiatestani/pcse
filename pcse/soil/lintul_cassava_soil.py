@@ -15,7 +15,7 @@ class soil_water_dynamics_PP(SimulationObject):
     class Parameters(ParamTemplate):
         SMFCF = Float()
         RDMSOL = Float()
-        ROOTDI = Float()
+        RDI = Float()
 
     class StateVariables(StatesTemplate):
         W = Float()
@@ -55,7 +55,7 @@ class soil_water_dynamics(SimulationObject):
         FRACRNINTC = Float()
         IRRIGF = Float()
         RRDMAX = Float()
-        ROOTDI = Float()
+        RDI = Float()
         TRANCO = Float()
         WCAD = Float()
         SMFCF = Float()
@@ -83,8 +83,8 @@ class soil_water_dynamics(SimulationObject):
         self.rates = self.RateVariables(kiosk, publish = [])
         self.params = self.Parameters(parameters)
         p = self.params
-        W = m_to_mm * p.ROOTDI * p.SMFCF
-        SM = W / (p.ROOTDI * m_to_mm)
+        W = m_to_mm * p.RDI * p.SMFCF
+        SM = W / (p.RDI * m_to_mm)
         WCCR = p.SMW
         self.states = self.StateVariables(kiosk,
                                           publish = ["W", "SM"],
