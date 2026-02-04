@@ -44,8 +44,8 @@ class light_interception_and_growth(SimulationObject):
         LUE = p.LUE_OPT * TEMPRF # g DM m-2 d-1
 
         # When water stress is more severe or nutrient is stress is more severe
-        if k.TRANRF <= k.NPKI:
-            GTOTAL = LUE * PARINT * k.TRANRF * (1 - k.DORMANCY)  # g DM m-2 d-1
+        if k.RFTRA <= k.NPKI:
+            GTOTAL = LUE * PARINT * k.RFTRA * (1 - k.DORMANCY)  # g DM m-2 d-1
         else:
             GTOTAL = LUE * PARINT * k.NPKI * (1 - k.DORMANCY)  # g DM m-2 d-1
 

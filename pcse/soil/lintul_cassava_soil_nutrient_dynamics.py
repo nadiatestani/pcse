@@ -161,7 +161,7 @@ class soil_nutrient_dynamics(SimulationObject):
         # Fertilizer nutrient supply
         # Pool in the soil which is not yet avalable for plant uptake
         #        supply rate      rate that becomes available for uptake
-        WLIMIT = k.TRANRF / (p.K_WATER + k.TRANRF)
+        WLIMIT = k.RFTRA / (p.K_WATER + k.RFTRA)
 
         RNMINF = RFERTN - p.RTNMINF * s.NMINF * WLIMIT  # g N m-2 d-1
         RPMINF = RFERTP - p.RTPMINF * s.PMINF * WLIMIT  # g P m-2 d-1

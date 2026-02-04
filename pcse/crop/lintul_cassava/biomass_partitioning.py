@@ -96,7 +96,7 @@ class biomass_partitioning(SimulationObject):
 
         # Allocation of assimilates to the different organs. The fractions are modified for water availability.
         # Nutrient limitation is also assumed to affect partitioning to the roots.
-        FRTMOD = max(1, 1 / (k.TRANRF * k.NPKI + 0.5))  # (-)
+        FRTMOD = max(1, 1 / (k.RFTRA * k.NPKI + 0.5))  # (-)
         # Fibrous roots
         FRT1 = p.FRTTB(k.TSUMCROP)
         FRT = FRT1 * FRTMOD  # (-)
@@ -151,7 +151,7 @@ class biomass_partitioning(SimulationObject):
         elif k.TSUM > p.OPTEMERGTSUM:
             # Movement of DM and NPK to other plant parts, depending on partitioning
             if s.WCUTTING-WCUTTINGMIN >= 0:
-                RWCUTTING = -p.RDRWCUTTING * s.WCUTTING * k.TRANRF * k.EMERG * (1 - k.DORMANCY)
+                RWCUTTING = -p.RDRWCUTTING * s.WCUTTING * k.RFTRA * k.EMERG * (1 - k.DORMANCY)
             else:
                 RWCUTTING = 0
 

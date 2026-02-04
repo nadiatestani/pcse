@@ -201,7 +201,7 @@ class crop_nutrient_dynamics(SimulationObject):
         # that nutrient uptake reduces monod-like with growth rate reduction due to:
         # 1) Low soil water supply: uptake rates are 50% when soil supply rates equals max-uptake rates
         # 2) Low soil nutrient supply: uptake rates are 50% when max soil supply rates equals max-uptake rates
-        WLIMIT = k.TRANRF / (p.K_WATER + k.TRANRF)
+        WLIMIT = k.RFTRA / (p.K_WATER + k.RFTRA)
 
         # Maximum amounts of nutrients for the given amount of biomass
         NMAX = k.NMAXLV * k.WLVG + k.NMAXST * k.WST + k.NMAXRT * k.WRT + k.NMAXSO * k.WSO

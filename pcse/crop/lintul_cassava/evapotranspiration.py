@@ -16,7 +16,7 @@ class evapotranspiration(SimulationObject):
     class RateVariables(RatesTemplate):
         REVAP = Float()
         RTRAN = Float()
-        TRANRF = Float()
+        RFTRA = Float()
         WCCR = Float()
         WCSD = Float()
 
@@ -27,7 +27,7 @@ class evapotranspiration(SimulationObject):
         self.kiosk = kiosk
         self.params = self.Parameters(parameters)
         self.rates = self.RateVariables(kiosk,
-                                        publish = ["REVAP", "RTRAN", "TRANRF", "WCCR", "WCSD"])
+                                        publish = ["REVAP", "RTRAN", "RFTRA", "WCCR", "WCSD"])
         self.states = self.StateVariables(
             kiosk,
             publish=[]
@@ -87,9 +87,9 @@ class evapotranspiration(SimulationObject):
 
         # The transpiration reduction factor is defined as the ratio between actual and potential transpiration
         if k.RPTRAN <= 0:
-            TRANRF = 1
+            RFTRA = 1
         else:
-            TRANRF = TRAN / k.RPTRAN
+            RFTRA = TRAN / k.RPTRAN
 
         # Soil moisture content at severe drought and the critical soil moisture content are calculated to see if
         # drought stress occurs in the crop. The critical soil moisture content depends on the transpiration coefficient
@@ -99,6 +99,6 @@ class evapotranspiration(SimulationObject):
 
         r.REVAP = EVAP
         r.RTRAN = TRAN
-        r.TRANRF = TRANRF
+        r.RFTRA = RFTRA
         r.WCCR = WCCR
         r.WCSD = WCSD
