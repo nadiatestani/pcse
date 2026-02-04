@@ -1,5 +1,3 @@
-m_to_mm = 1e3
-
 class drunir():
     # -------------------------------------------------------------------------------------------------#
     # FUNCTION drunir
@@ -16,10 +14,10 @@ class drunir():
 
     def __init__(self, RAIN, RNINTC, EVAP, TRAN, IRRIGF, DRATE, DELT, WA, ROOTD, WCFC, WCST):
         # Soil water content
-        WC = WA / (ROOTD * m_to_mm)  # m3 m-3
+        WC = WA / ROOTD # cm3 cm-3
         # The amount of soil water at air dryness (AD) and field capacity (FC).
-        WAFC = m_to_mm * WCFC * ROOTD  # mm
-        WAST = m_to_mm * WCST * ROOTD  # mm
+        WAFC = WCFC * ROOTD  # cm
+        WAST = WCST * ROOTD  # cm
 
         # Drainage below the root zone occurs when the amount of water in the soil exceeds field capacity
         # or when the amount of rainfall in excess of interception and evapotranspiration fills up soil
@@ -31,13 +29,13 @@ class drunir():
         # Surface runoff occurs when the amount of soil water exceeds total saturation or when the amount
         # of rainfall in excess of interception, evapotranspiration and drainage fills up soil water
         # above total saturation.
-        RUNOFF = max(0, (WA - WAST) / DELT + (RAIN - (RNINTC + EVAP + TRAN + DRAIN)))  # mm d-1
+        RUNOFF = max(0, (WA - WAST) / DELT + (RAIN - (RNINTC + EVAP + TRAN + DRAIN)))  # cm d-1
 
         # The irrigation rate is the extra amount of water that is needed to keep soil water at a fraction
         # of field capacity that is defined by setting the parameter IRRIGF. If IRRIGF is set to 1, the
         # soil will be irrigated every timestep to keep the amount of water in the soil at field capacity.
         # IRRIGF = 0 implies rainfed conditions.
-        IRRIG = IRRIGF * max(0, (WAFC - WA) / DELT - (RAIN - (RNINTC + EVAP + TRAN + DRAIN + RUNOFF)))  # mm d-1
+        IRRIG = IRRIGF * max(0, (WAFC - WA) / DELT - (RAIN - (RNINTC + EVAP + TRAN + DRAIN + RUNOFF)))  # cm d-1
 
         self.DRAIN = DRAIN
         self.RUNOFF = RUNOFF

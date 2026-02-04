@@ -39,7 +39,7 @@ class fibrous_root_growth(SimulationObject):
         s = self.states
 
         if (s.RD-p.RDMSOL < 0) & (k.SM-p.SMW >= 0):
-            RRD = p.RRDMAX * k.EMERG  # mm d-1
+            RRD = p.RRDMAX * k.EMERG  # cm d-1
         else:
             RRD = 0
 

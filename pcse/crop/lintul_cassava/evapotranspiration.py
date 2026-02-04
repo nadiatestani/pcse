@@ -1,8 +1,6 @@
 from pcse.base import ParamTemplate, RatesTemplate, SimulationObject, StatesTemplate
 from pcse.traitlets import Float
 
-m_to_mm = 1e3
-
 class evapotranspiration(SimulationObject):
     class Parameters(ParamTemplate):
         TRANCO = Float()
@@ -41,8 +39,8 @@ class evapotranspiration(SimulationObject):
         r = self.rates
 
         # The amount of soil water at air dryness (AD) and field capacity (FC).
-        WAAD = m_to_mm * p.WCAD * k.RD  # mm
-        WAFC = m_to_mm * p.SMFCF * k.RD  # mm
+        WAAD = p.WCAD * k.RD  # mm
+        WAFC = p.SMFCF * k.RD  # mm
 
         # Evaporation is decreased when water content is below field capacity,
         # but continues until WC = WCAD. It is ensured to stay within 0-1 range

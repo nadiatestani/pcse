@@ -2,8 +2,6 @@ from pcse.soil.lintul_cassava_drunir import drunir
 from pcse.base import ParamTemplate, RatesTemplate, SimulationObject, StatesTemplate
 from pcse.traitlets import Float
 
-cm_to_mm = 1e1
-m_to_mm = 1e3
 J_to_MJ = 1e-6
 m2_to_ha = 1e-4
 hPa_to_kPa = 1e-1
@@ -29,8 +27,8 @@ class soil_water_dynamics_PP(SimulationObject):
         self.rates = self.RateVariables(kiosk, publish = [])
         self.params = self.Parameters(parameters)
         p = self.params
-        W = m_to_mm * p.RDMSOL * p.SMFCF
-        SM = W / (p.RDMSOL * m_to_mm)
+        W = p.RDMSOL * p.SMFCF
+        SM = W / p.RDMSOL
         self.states = self.StateVariables(kiosk,
                                           publish = ["SM", "W"],
                                           W = W,
@@ -43,8 +41,8 @@ class soil_water_dynamics_PP(SimulationObject):
         k = self.kiosk
         p = self.params
         s = self.states
-        W = m_to_mm * k.RD * p.SMFCF
-        SM = W / (k.RD * m_to_mm)
+        W = k.RD * p.SMFCF
+        SM = W / k.RD
         s.W = W
         s.SM = SM
 
@@ -83,8 +81,8 @@ class soil_water_dynamics(SimulationObject):
         self.rates = self.RateVariables(kiosk, publish = [])
         self.params = self.Parameters(parameters)
         p = self.params
-        W = m_to_mm * p.RDI * p.SMFCF
-        SM = W / (p.RDI * m_to_mm)
+        W = p.RDI * p.SMFCF
+        SM = W / p.RDI
         WCCR = p.SMW
         self.states = self.StateVariables(kiosk,
                                           publish = ["W", "SM"],
@@ -115,12 +113,12 @@ class soil_water_dynamics(SimulationObject):
         r = self.rates
 
         # Determine weather conditions
-        RTRAIN = drv.RAIN * cm_to_mm / delt             # mm d-1           : rain rate
+        RTRAIN = drv.RAIN / delt             # cm d-1           : rain rate
 
         # ----------------------------------------WATER BALANCE---------------------------------------------#
         # Explored water of new soil water layers by the roots, explored soil is assumed to have a FC soil moisture
         # content).
-        EXPLOR = m_to_mm * RROOTD * p.SMFCF  # mm d-1
+        EXPLOR = RROOTD * p.SMFCF  # cm d-1
 
         # Drainage and Runoff is calculated using the drunir function.
         dr = drunir(RTRAIN, k.RNINTC, k.REVAP, k.RTRAN, p.IRRIGF, p.DRATE, delt, s.W, ROOTD, p.SMFCF, p.SM0)
@@ -129,7 +127,7 @@ class soil_water_dynamics(SimulationObject):
         RIRRIG = dr.IRRIG
 
         # Rate of change of soil water amount
-        RWA = (RTRAIN + EXPLOR + RIRRIG) - (k.RNINTC + RRUNOFF + k.RTRAN + k.REVAP + RDRAIN)  # mm d-1
+        RWA = (RTRAIN + EXPLOR + RIRRIG) - (k.RNINTC + RRUNOFF + k.RTRAN + k.REVAP + RDRAIN)  # cm d-1
 
         r.RWA = RWA
         r.EXPLOR = EXPLOR
@@ -140,6 +138,6 @@ class soil_water_dynamics(SimulationObject):
         s = self.states
 
         s.W += r.RWA
-        s.SM = s.W / (k.RD * m_to_mm)
+        s.SM = s.W / k.RD
         s.RUNOFF += delt * r.RRUNOFF
         s.DRAIN += delt * r.RDRAIN

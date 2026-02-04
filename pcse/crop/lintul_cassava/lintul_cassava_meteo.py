@@ -2,9 +2,9 @@ from pcse.base import ParamTemplate, RatesTemplate, SimulationObject, StatesTemp
 from pcse.traitlets import Float
 import numpy as np
 
-cm_to_mm  = 10.
 hPa_to_kPa = 1e-1
 J_to_MJ = 1e-6
+mm_to_cm = 1e-1
 
 class penman(SimulationObject):
     class Parameters(ParamTemplate):
@@ -38,11 +38,11 @@ class penman(SimulationObject):
         DAVTMP = drv.TEMP
         DTR = drv.IRRAD * J_to_MJ
         VP = drv.VAP * hPa_to_kPa
-        RTRAIN = drv.RAIN * cm_to_mm / delt     # mm d-1           : rain rate
+        RTRAIN = drv.RAIN / delt     # cm d-1           : rain rate
         WN = drv.WIND
 
         # Interception of the canopy, depends on the amount of rainfall and the LAI.
-        RNINTC = min(RTRAIN, (p.FRACRNINTC * k.LAI))  # mm d-1
+        RNINTC = min(RTRAIN, (p.FRACRNINTC * k.LAI))  # cm d-1
 
         DTRJM2 = DTR * 1E6  # J m-2 d-1     :    Daily radiation in Joules
         BOLTZM = 5.668E-8  # J m-1 s-1 K-4 :    Stefan-Boltzmann constant
@@ -71,6 +71,6 @@ class penman(SimulationObject):
         PTRAN = (1 - np.exp(-0.5 * k.LAI)) * (PENMRC + PENMD) / LHVAP  # mm d-1
         PTRAN = max(0, PTRAN - 0.5 * RNINTC)  # mm d-1
 
-        r.RNINTC = RNINTC
-        r.RPEVAP = PEVAP
-        r.RPTRAN = PTRAN
+        r.RNINTC = RNINTC * mm_to_cm
+        r.RPEVAP = PEVAP * mm_to_cm
+        r.RPTRAN = PTRAN * mm_to_cm
