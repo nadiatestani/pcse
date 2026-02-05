@@ -50,13 +50,9 @@ class evapotranspiration(SimulationObject):
         limit_evap = (k.SM - p.WCAD) / (p.SMFCF - p.WCAD)  # (-)
         limit_evap = min(1, max(0, limit_evap))  # (-)
 
-        # crop specific correction on potential transpiration rate
-        # RPEVAP = k.RPEVAP
-        # RPTRAN = k.RPTRAN
-
         # Potential evaporation and transpiration are weighed by a factor representing the plant canopy (exp(-0.5 * LAI)).
-        RPEVAP = np.exp(-0.5 * k.LAI) * drv.ES0 # cm d-1
-        RPTRAN = (1 - np.exp(-0.5 * k.LAI)) * drv.ET0 # cm d-1
+        RPEVAP = np.exp(-0.5 * k.LAI) * k.ES0 # cm d-1
+        RPTRAN = (1 - np.exp(-0.5 * k.LAI)) * k.ET0 # cm d-1
         RPTRAN = max(0, RPTRAN - 0.5 * k.RNINTC)  # cm d-1
 
         EVAP = RPEVAP * limit_evap  # mm d-1
