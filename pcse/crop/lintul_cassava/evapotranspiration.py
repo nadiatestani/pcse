@@ -43,15 +43,19 @@ class evapotranspiration(SimulationObject):
         WAAD = p.WCAD * k.RD  # mm
         WAFC = p.SMFCF * k.RD  # mm
 
-        # crop specific correction on potential transpiration rate
-        RPEVAP = k.RPEVAP
-        RPTRAN = k.RPTRAN
-
         # Evaporation is decreased when water content is below field capacity,
         # but continues until WC = WCAD. It is ensured to stay within 0-1 range
         limit_evap = (k.SM - p.WCAD) / (p.SMFCF - p.WCAD)  # (-)
         limit_evap = min(1, max(0, limit_evap))  # (-)
 
+        # crop specific correction on potential transpiration rate
+        # RPEVAP = k.RPEVAP
+        # RPTRAN = k.RPTRAN
+
+        # Potential evaporation and transpiration are weighed by a factor representing the plant canopy (exp(-0.5 * LAI)).
+        RPEVAP = np.exp(-0.5 * k.LAI) * k.ES0 # cm d-1
+        RPTRAN = (1 - np.exp(-0.5 * k.LAI)) * k.ET0 # cm d-1
+        RPTRAN = max(0, RPTRAN - 0.5 * k.RNINTC)  # cm d-1
 
         EVAP = RPEVAP * limit_evap  # mm d-1
 
@@ -101,6 +105,9 @@ class evapotranspiration(SimulationObject):
         # which is a measure of how drought resistant the crop is.
         WCSD = p.SMW * p.TWCSD
         WCCR = p.SMW + max(WCSD-p.SMW, (RPTRAN / (RPTRAN + p.TRANCO) * (p.SMFCF-p.SMW)))
+
+        r.RPEVAP = RPEVAP
+        r.RPTRAN = RPTRAN
 
         r.REVAP = EVAP
         r.RTRAN = TRAN

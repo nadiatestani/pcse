@@ -16,14 +16,14 @@ class penman(SimulationObject):
         pass
 
     class RateVariables(RatesTemplate):
-        RPEVAP = Float()
-        RPTRAN = Float()
+        ES0 = Float()
+        ET0 = Float()
 
     def initialize(self, day, kiosk, parameters):
         self.kiosk = kiosk
         self.params = self.Parameters(parameters)
         self.rates = self.RateVariables(kiosk,
-                                        publish = ["RPEVAP", "RPTRAN"])
+                                        publish = ["ES0", "ET0"])
         self.states = self.StateVariables(
             kiosk,
             publish=[],
@@ -67,10 +67,5 @@ class penman(SimulationObject):
         ES0 = (PENMRS + PENMD) / LHVAP * mm_to_cm  # cm d-1
         ET0 = (PENMRC + PENMD) / LHVAP * mm_to_cm  # cm d-1
 
-        # Potential evaporation and transpiration are weighed by a factor representing the plant canopy (exp(-0.5 * LAI)).
-        PEVAP = np.exp(-0.5 * k.LAI) * ES0 # cm d-1
-        PTRAN = (1 - np.exp(-0.5 * k.LAI)) * ET0 # cm d-1
-        PTRAN = max(0, PTRAN - 0.5 * k.RNINTC)  # cm d-1
-
-        r.RPEVAP = PEVAP
-        r.RPTRAN = PTRAN
+        r.ES0 = ES0
+        r.ET0 = ET0
