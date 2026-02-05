@@ -1,5 +1,6 @@
 from pcse.base import ParamTemplate, RatesTemplate, SimulationObject, StatesTemplate
 from pcse.traitlets import Float
+import numpy as np
 
 class evapotranspiration(SimulationObject):
     class Parameters(ParamTemplate):
@@ -42,16 +43,22 @@ class evapotranspiration(SimulationObject):
         WAAD = p.WCAD * k.RD  # mm
         WAFC = p.SMFCF * k.RD  # mm
 
+        # crop specific correction on potential transpiration rate
+        RPEVAP = k.RPEVAP
+        RPTRAN = k.RPTRAN
+
         # Evaporation is decreased when water content is below field capacity,
         # but continues until WC = WCAD. It is ensured to stay within 0-1 range
         limit_evap = (k.SM - p.WCAD) / (p.SMFCF - p.WCAD)  # (-)
         limit_evap = min(1, max(0, limit_evap))  # (-)
-        EVAP = k.RPEVAP * limit_evap  # mm d-1
+
+
+        EVAP = RPEVAP * limit_evap  # mm d-1
 
         # Water content at severe drought
         WCSD = p.SMW * p.TWCSD
         # Critical water content
-        WCCR = p.SMW + max(WCSD - p.SMW, k.RPTRAN / (k.RPTRAN + p.TRANCO) * (p.SMFCF - p.SMW))
+        WCCR = p.SMW + max(WCSD - p.SMW, RPTRAN / (RPTRAN + p.TRANCO) * (p.SMFCF - p.SMW))
 
         # If water content is below the critical soil water content a correction factor is calculated
         # that reduces the transpiration until it stops at WC = WCWP.
@@ -70,7 +77,7 @@ class evapotranspiration(SimulationObject):
         FR = min(1, max(0, FR))  # (-)
 
         # Actual transpration
-        TRAN = k.RPTRAN * FR  # mm d-1
+        TRAN = RPTRAN * FR  # mm d-1
 
         # A final correction term is calculated to reduce evaporation and transpiration when evapotranspiration exceeds
         # the amount of water in soil present in excess of air dryness.
@@ -84,16 +91,16 @@ class evapotranspiration(SimulationObject):
         EVAP = EVAP * AVAILF
 
         # The transpiration reduction factor is defined as the ratio between actual and potential transpiration
-        if k.RPTRAN <= 0:
+        if RPTRAN <= 0:
             RFTRA = 1
         else:
-            RFTRA = TRAN / k.RPTRAN
+            RFTRA = TRAN / RPTRAN
 
         # Soil moisture content at severe drought and the critical soil moisture content are calculated to see if
         # drought stress occurs in the crop. The critical soil moisture content depends on the transpiration coefficient
         # which is a measure of how drought resistant the crop is.
         WCSD = p.SMW * p.TWCSD
-        WCCR = p.SMW + max(WCSD-p.SMW, (k.RPTRAN / (k.RPTRAN + p.TRANCO) * (p.SMFCF-p.SMW)))
+        WCCR = p.SMW + max(WCSD-p.SMW, (RPTRAN / (RPTRAN + p.TRANCO) * (p.SMFCF-p.SMW)))
 
         r.REVAP = EVAP
         r.RTRAN = TRAN
