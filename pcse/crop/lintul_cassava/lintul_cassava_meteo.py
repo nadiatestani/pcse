@@ -1,10 +1,12 @@
 from pcse.base import ParamTemplate, RatesTemplate, SimulationObject, StatesTemplate
 from pcse.traitlets import Float
 import numpy as np
+import datetime as dt
 
 hPa_to_kPa = 1e-1
 J_to_MJ = 1e-6
 mm_to_cm = 1e-1
+cm_to_mm = 1e1
 
 class penman(SimulationObject):
     class Parameters(ParamTemplate):
@@ -69,8 +71,8 @@ class penman(SimulationObject):
         # Potential evaporation and transpiration are weighed by a factor representing the plant canopy (exp(-0.5 * LAI)).
         PEVAP = np.exp(-0.5 * k.LAI) * (PENMRS + PENMD) / LHVAP  # mm d-1
         PTRAN = (1 - np.exp(-0.5 * k.LAI)) * (PENMRC + PENMD) / LHVAP  # mm d-1
-        PTRAN = max(0, PTRAN - 0.5 * RNINTC)  # mm d-1
+        PTRAN = max(0, PTRAN - 0.5 * RNINTC * cm_to_mm)  # mm d-1
 
-        r.RNINTC = RNINTC * mm_to_cm
+        r.RNINTC = RNINTC
         r.RPEVAP = PEVAP * mm_to_cm
         r.RPTRAN = PTRAN * mm_to_cm
