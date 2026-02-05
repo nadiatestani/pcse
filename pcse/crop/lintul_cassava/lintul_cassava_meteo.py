@@ -63,14 +63,14 @@ class penman(SimulationObject):
         # Drying power term (J m-2 d-1) of the Penman equation
         PENMD = LHVAP * WDF * (SVP - VP) * PSYCH / (SLOPE + PSYCH)
 
-        # Reference evapotranspiration
-        ES0 = (PENMRS + PENMD) / LHVAP  # mm d-1
-        ET0 = (PENMRC + PENMD) / LHVAP  # mm d-1
+        # Reference evapotranspiration for bare soil (ES0) and crop (ET0)
+        ES0 = (PENMRS + PENMD) / LHVAP * mm_to_cm  # cm d-1
+        ET0 = (PENMRC + PENMD) / LHVAP * mm_to_cm  # cm d-1
 
         # Potential evaporation and transpiration are weighed by a factor representing the plant canopy (exp(-0.5 * LAI)).
-        PEVAP = np.exp(-0.5 * k.LAI) * ES0 # mm d-1
-        PTRAN = (1 - np.exp(-0.5 * k.LAI)) * ET0 # mm d-1
-        PTRAN = max(0, PTRAN - 0.5 * k.RNINTC * cm_to_mm)  # mm d-1
+        PEVAP = np.exp(-0.5 * k.LAI) * ES0 # cm d-1
+        PTRAN = (1 - np.exp(-0.5 * k.LAI)) * ET0 # cm d-1
+        PTRAN = max(0, PTRAN - 0.5 * k.RNINTC)  # cm d-1
 
-        r.RPEVAP = PEVAP * mm_to_cm
-        r.RPTRAN = PTRAN * mm_to_cm
+        r.RPEVAP = PEVAP
+        r.RPTRAN = PTRAN
