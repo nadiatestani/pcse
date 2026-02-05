@@ -1,6 +1,6 @@
 from pcse.base import SimulationObject, ParamTemplate, StatesTemplate, RatesTemplate
 from pcse.crop.lintul_cassava.phenology import phenology
-
+from pcse.crop.lintul_cassava.canopy_rain_interception import canopy_rain_interception
 from pcse.crop.lintul_cassava.biomass_partitioning import biomass_partitioning
 from pcse.crop.lintul_cassava.dormancy import dormancy
 from pcse.crop.lintul_cassava.lintul_cassava_meteo import penman
@@ -17,6 +17,7 @@ class LINTUL_CASSAVA(SimulationObject):
     phenology = Instance(SimulationObject)
     fibrous_root_growth = Instance(SimulationObject)
     penman = Instance(SimulationObject)
+    canopy_rain_interception = Instance(SimulationObject)
     evapotranspiration = Instance(SimulationObject)
     npk_stress = Instance(SimulationObject)
     dormancy = Instance(SimulationObject)
@@ -43,6 +44,7 @@ class LINTUL_CASSAVA(SimulationObject):
 
         self.phenology = phenology(day, kiosk, parvalues)
         self.fibrous_root_growth = fibrous_root_growth(day, kiosk, parvalues)
+        self.canopy_rain_interception = canopy_rain_interception(day, kiosk, parvalues)
         self.penman = penman(day, kiosk, parvalues)
         self.evapotranspiration = evapotranspiration(day, kiosk, parvalues)
         self.npk_stress = npk_stress(day, kiosk, parvalues)
@@ -56,6 +58,7 @@ class LINTUL_CASSAVA(SimulationObject):
     def calc_rates(self, day, drv, delt = 1):
         self.phenology.calc_rates(day, drv, delt)
         self.fibrous_root_growth.calc_rates(day, drv, delt)
+        self.canopy_rain_interception.calc_rates(day, drv, delt)
         self.penman(day, drv)
         self.evapotranspiration(day, drv)
         self.npk_stress(day, drv)
@@ -69,6 +72,7 @@ class LINTUL_CASSAVA(SimulationObject):
     def integrate(self, day, drv, delt = 1):
         self.phenology.integrate(day, delt)
         self.fibrous_root_growth.integrate(day, delt)
+        self.canopy_rain_interception.integrate(day, delt)
         self.dormancy.integrate(day, delt)
         self.leaf_senescence.integrate(day, drv)
         self.light_interception_and_growth.integrate(day, drv, delt)

@@ -10,13 +10,12 @@ cm_to_mm = 1e1
 
 class penman(SimulationObject):
     class Parameters(ParamTemplate):
-        FRACRNINTC = Float()
+        pass
 
     class StateVariables(StatesTemplate):
         pass
 
     class RateVariables(RatesTemplate):
-        RNINTC = Float()
         RPEVAP = Float()
         RPTRAN = Float()
 
@@ -24,7 +23,7 @@ class penman(SimulationObject):
         self.kiosk = kiosk
         self.params = self.Parameters(parameters)
         self.rates = self.RateVariables(kiosk,
-                                        publish = ["RNINTC", "RPEVAP", "RPTRAN"])
+                                        publish = ["RPEVAP", "RPTRAN"])
         self.states = self.StateVariables(
             kiosk,
             publish=[],
@@ -68,15 +67,10 @@ class penman(SimulationObject):
         ES0 = (PENMRS + PENMD) / LHVAP  # mm d-1
         ET0 = (PENMRC + PENMD) / LHVAP  # mm d-1
 
-        # Interception of the canopy, depends on the amount of rainfall and the LAI.
-        RTRAIN = drv.RAIN / delt     # cm d-1           : rain rate
-        RNINTC = min(RTRAIN, (p.FRACRNINTC * k.LAI))  # cm d-1
-
         # Potential evaporation and transpiration are weighed by a factor representing the plant canopy (exp(-0.5 * LAI)).
         PEVAP = np.exp(-0.5 * k.LAI) * ES0 # mm d-1
         PTRAN = (1 - np.exp(-0.5 * k.LAI)) * ET0 # mm d-1
-        PTRAN = max(0, PTRAN - 0.5 * RNINTC * cm_to_mm)  # mm d-1
+        PTRAN = max(0, PTRAN - 0.5 * k.RNINTC * cm_to_mm)  # mm d-1
 
-        r.RNINTC = RNINTC
         r.RPEVAP = PEVAP * mm_to_cm
         r.RPTRAN = PTRAN * mm_to_cm
