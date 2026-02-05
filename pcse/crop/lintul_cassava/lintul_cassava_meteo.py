@@ -40,11 +40,7 @@ class penman(SimulationObject):
         DAVTMP = drv.TEMP
         DTR = drv.IRRAD * J_to_MJ
         VP = drv.VAP * hPa_to_kPa
-        RTRAIN = drv.RAIN / delt     # cm d-1           : rain rate
         WN = drv.WIND
-
-        # Interception of the canopy, depends on the amount of rainfall and the LAI.
-        RNINTC = min(RTRAIN, (p.FRACRNINTC * k.LAI))  # cm d-1
 
         DTRJM2 = DTR * 1E6  # J m-2 d-1     :    Daily radiation in Joules
         BOLTZM = 5.668E-8  # J m-1 s-1 K-4 :    Stefan-Boltzmann constant
@@ -68,9 +64,17 @@ class penman(SimulationObject):
         # Drying power term (J m-2 d-1) of the Penman equation
         PENMD = LHVAP * WDF * (SVP - VP) * PSYCH / (SLOPE + PSYCH)
 
+        # Reference evapotranspiration
+        ES0 = (PENMRS + PENMD) / LHVAP  # mm d-1
+        ET0 = (PENMRC + PENMD) / LHVAP  # mm d-1
+
+        # Interception of the canopy, depends on the amount of rainfall and the LAI.
+        RTRAIN = drv.RAIN / delt     # cm d-1           : rain rate
+        RNINTC = min(RTRAIN, (p.FRACRNINTC * k.LAI))  # cm d-1
+
         # Potential evaporation and transpiration are weighed by a factor representing the plant canopy (exp(-0.5 * LAI)).
-        PEVAP = np.exp(-0.5 * k.LAI) * (PENMRS + PENMD) / LHVAP  # mm d-1
-        PTRAN = (1 - np.exp(-0.5 * k.LAI)) * (PENMRC + PENMD) / LHVAP  # mm d-1
+        PEVAP = np.exp(-0.5 * k.LAI) * ES0 # mm d-1
+        PTRAN = (1 - np.exp(-0.5 * k.LAI)) * ET0 # mm d-1
         PTRAN = max(0, PTRAN - 0.5 * RNINTC * cm_to_mm)  # mm d-1
 
         r.RNINTC = RNINTC
