@@ -15,8 +15,9 @@ class evapotranspiration(SimulationObject):
     class RateVariables(RatesTemplate):
         RPEVAP = Float()
         RPTRAN = Float()
-        REVAP = Float()
-        RTRAN = Float()
+        EVSMX = Float()
+        EVWMX = Float()
+        TRA = Float()
         RFTRA = Float()
         WCCR = Float()
         WCSD = Float()
@@ -28,7 +29,7 @@ class evapotranspiration(SimulationObject):
         self.kiosk = kiosk
         self.params = self.Parameters(parameters)
         self.rates = self.RateVariables(kiosk,
-                                        publish = ["RPTRAN", "RPEVAP", "REVAP", "RTRAN", "RFTRA", "WCCR", "WCSD"])
+                                        publish = ["RPTRAN", "RPEVAP", "EVSMX", "TRA", "RFTRA", "WCCR", "WCSD", "EVWMX"])
         self.states = self.StateVariables(
             kiosk,
             publish=[]
@@ -104,11 +105,16 @@ class evapotranspiration(SimulationObject):
         WCSD = p.SMW * p.TWCSD
         WCCR = p.SMW + max(WCSD-p.SMW, (RPTRAN / (RPTRAN + p.TRANCO) * (p.SMFCF-p.SMW)))
 
+        # Maximum evaporation from an open water surface (cm). It is not used by the native soil water balance of LINTUL
+        # Cassava, but other soil water balances in PCSE require this as input from evapotranspiration modules.
+        REVAPW = drv.E0
+
         r.RPEVAP = RPEVAP
         r.RPTRAN = RPTRAN
 
-        r.REVAP = EVAP
-        r.RTRAN = TRAN
+        r.EVWMX = REVAPW
+        r.EVSMX = EVAP
+        r.TRA = TRAN
         r.RFTRA = RFTRA
         r.WCCR = WCCR
         r.WCSD = WCSD

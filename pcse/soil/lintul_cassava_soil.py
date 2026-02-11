@@ -118,13 +118,13 @@ class soil_water_dynamics(SimulationObject):
         EXPLOR = RROOTD * p.SMFCF  # cm d-1
 
         # Drainage and Runoff is calculated using the drunir function.
-        dr = drunir(RTRAIN, k.RNINTC, k.REVAP, k.RTRAN, p.IRRIGF, p.DRATE, delt, s.W, ROOTD, p.SMFCF, p.SM0)
+        dr = drunir(RTRAIN, k.RNINTC, k.EVSMX, k.TRA, p.IRRIGF, p.DRATE, delt, s.W, ROOTD, p.SMFCF, p.SM0)
         RDRAIN = dr.DRAIN
         RRUNOFF = dr.RUNOFF
         RIRRIG = dr.IRRIG
 
         # Rate of change of soil water amount
-        RWA = (RTRAIN + EXPLOR + RIRRIG) - (k.RNINTC + RRUNOFF + k.RTRAN + k.REVAP + RDRAIN)  # cm d-1
+        RWA = (RTRAIN + EXPLOR + RIRRIG) - (k.RNINTC + RRUNOFF + k.TRA + k.EVSMX + RDRAIN)  # cm d-1
 
         r.RWA = RWA
         r.EXPLOR = EXPLOR
