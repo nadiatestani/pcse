@@ -89,7 +89,8 @@ class evapotranspiration(SimulationObject):
             # Original R code: aux[aux <= 0] = 1  # mm d-1
             aux = 1
 
-        AVAILF = min(1, (k.W - WAAD) / (delt * aux))  # mm
+        W = k.SM * k.RD
+        AVAILF = min(1, (W - WAAD) / (delt * aux))  # mm
         TRAN = TRAN * AVAILF
         EVAP = EVAP * AVAILF
 
