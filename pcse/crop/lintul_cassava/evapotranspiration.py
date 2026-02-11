@@ -78,7 +78,7 @@ class evapotranspiration(SimulationObject):
         # Ensure to stay within the 0-1 range
         FR = min(1, max(0, FR))  # (-)
 
-        # Actual transpration
+        # Actual transpiration
         TRAN = RPTRAN * FR  # mm d-1
 
         # A final correction term is calculated to reduce evaporation and transpiration when evapotranspiration exceeds
