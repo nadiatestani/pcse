@@ -67,6 +67,7 @@ class soil_water_dynamics(SimulationObject):
 
     class RateVariables(RatesTemplate):
         RWA = Float()
+        EVS = Float()
         RTRAIN = Float()
         EXPLOR = Float()
         RIRRIG = Float()
@@ -128,6 +129,11 @@ class soil_water_dynamics(SimulationObject):
 
         r.RWA = RWA
         r.EXPLOR = EXPLOR
+
+        # In the native water balance of PCSE, there is no difference between EVSMX and EVS, because the soil
+        # evaporation rate is not affected by the number of days with a dry soil before the current day. EVS and
+        # EVSMX nevertheless stored separately for for consistency with other soil water modules in PCSE.
+        r.EVS = k.EVSMX
 
     def integrate(self, day, drv, delt = 1):
         k = self.kiosk
