@@ -9,6 +9,7 @@ the waterbalance directly into the configuration.
 from pcse.base import SimulationObject
 from pcse.traitlets import Instance
 from pcse.soil.lintul_cassava_soil import soil_water_dynamics, soil_water_dynamics_PP
+from pcse.soil.classic_waterbalance import WaterbalanceFD, WaterbalancePP
 from pcse.soil.lintul_cassava_soil_nutrient_dynamics import soil_nutrient_dynamics, soil_nutrient_dynamics_PP
 
 
@@ -44,17 +45,33 @@ class BaseSoilWrapper(SimulationObject):
             self.nutrientbalance.integrate(day, delt)
 
 class Lintul_Cassava_WNLP_SoilWrapper(BaseSoilWrapper):
-    waterbalance_class = soil_water_dynamics
+    waterbalance_class = WaterbalanceFD
     nutrientbalance_class = soil_nutrient_dynamics
 
 class Lintul_Cassava_WLP_SoilWrapper(BaseSoilWrapper):
-    waterbalance_class = soil_water_dynamics
+    waterbalance_class = WaterbalanceFD
     nutrientbalance_class = soil_nutrient_dynamics_PP
 
 class Lintul_Cassava_NLP_SoilWrapper(BaseSoilWrapper):
-    waterbalance_class = soil_water_dynamics_PP
+    waterbalance_class = WaterbalancePP
     nutrientbalance_class = soil_nutrient_dynamics
 
 class Lintul_Cassava_PP_SoilWrapper(BaseSoilWrapper):
+    waterbalance_class = WaterbalancePP
+    nutrientbalance_class = soil_nutrient_dynamics_PP
+
+class Lintul_Cassava_original_WNLP_SoilWrapper(BaseSoilWrapper):
+    waterbalance_class = soil_water_dynamics
+    nutrientbalance_class = soil_nutrient_dynamics
+
+class Lintul_Cassava_original_WLP_SoilWrapper(BaseSoilWrapper):
+    waterbalance_class = soil_water_dynamics
+    nutrientbalance_class = soil_nutrient_dynamics_PP
+
+class Lintul_Cassava_original_NLP_SoilWrapper(BaseSoilWrapper):
+    waterbalance_class = soil_water_dynamics_PP
+    nutrientbalance_class = soil_nutrient_dynamics
+
+class Lintul_Cassava_original_PP_SoilWrapper(BaseSoilWrapper):
     waterbalance_class = soil_water_dynamics_PP
     nutrientbalance_class = soil_nutrient_dynamics_PP

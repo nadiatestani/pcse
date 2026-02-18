@@ -132,6 +132,40 @@ class Lintul_Cassava10_NLP(Engine):
     __waterbalance__ = None
     __nitrogenbalance__ = None
 
+class Lintul_Cassava10_PP_original(Engine):
+    config = "Lintul_cassava10_PP_original.conf"
+    __productionlevel__ = "PP"
+    __cropmodel__ = "LINTUL_CASSAVA"
+    __cropmodelversion__ = "1.0"
+    __waterbalance__ = None
+    __nitrogenbalance__ = None
+
+class Lintul_Cassava10_WLP_original(Engine):
+    config = "Lintul_cassava10_WLP_original.conf"
+    __productionlevel__ = "WLP"
+    __cropmodel__ = "LINTUL_CASSAVA"
+    __cropmodelversion__ = "1.0"
+    __waterbalance__ = None
+    __nitrogenbalance__ = None
+
+class Lintul_Cassava10_WNLP_original(Engine):
+    config = "Lintul_cassava10_WNLP_original.conf"
+    __productionlevel__ = "WNLP"
+    __cropmodel__ = "LINTUL_CASSAVA"
+    __cropmodelversion__ = "1.0"
+    __waterbalance__ = None
+    __nitrogenbalance__ = None
+
+class Lintul_Cassava10_NLP_original(Engine):
+    config = "Lintul_cassava10_WNLP_original.conf"
+    __productionlevel__ = "NLP"
+    __cropmodel__ = "LINTUL_CASSAVA"
+    __cropmodelversion__ = "1.0"
+    __waterbalance__ = None
+    __nitrogenbalance__ = None
+
+
+
 class FAO_WRSI10_WLP_CWB(Engine):
     """Convenience class for computing actual crop water use using the Water Requirements
     Satisfaction Index with a (modified) FAO WRSI approach.
