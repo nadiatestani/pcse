@@ -13,9 +13,10 @@ class biomass_partitioning(SimulationObject):
     water availability. Nutrient limitation is also assumed to affect partitioning to the roots
 
     ** Simulation parameters **
-    ==============  ==============================================  ======  =====================
+
+    ==============  ==============================================  ======  ===========================
      Name           Description                                     Type     Unit
-    ==============  ==============================================  ======  =====================
+    ==============  ==============================================  ======  ===========================
     FLVTB           Partitioning fraction to leaves as a function   TCr
                     of temperature sum.                                     g DM g-1 DM
     FLV_CUTT        Fraction of initial cutting allocated to leaves TCr     g DM g-1 DM
@@ -37,14 +38,14 @@ class biomass_partitioning(SimulationObject):
     WCUTTINGMINPRO  Minimum fraction of stem cutting that is not
                     allocated to other organs                       SCr     g DM g-1 DM
     WCUTTINGUNIT    Average weight per cutting                      SCr     g DM
-    ==============  ==============================================  ======  =====================
+    ==============  ==============================================  ======  ===========================
 
 
     ** State variables **
 
-    ==============  ==============================================  ======  =====================
-     Name           Description                                     Pbl      Unit
-    ==============  ==============================================  ======  =====================
+    ==============  ==============================================  ======  ===========================
+     Name           Description                                     Pbl     Unit
+    ==============  ==============================================  ======  ===========================
     KCUTTING        Amount of potassium in cutting                  N        g K m-2 ground
     NCUTTING        Amount of nitrogen in cutting                   N        g N m-2 ground
     PCUTTING        Amount of phosphorus in cutting                 N        g P m-2 ground
@@ -54,12 +55,13 @@ class biomass_partitioning(SimulationObject):
     WSO             Dry weight of storage organs                    Y        g DM m-2 ground
     WST             Dry weight of stems                             Y        g DM m-2 ground
     WRT             Dry weight of fibrous roots                     Y        g DM m-2 ground
-    ==============  ==============================================  ======  =====================
+    ==============  ==============================================  ======  ===========================
 
     ** Rate variables **
-    ==============  ==============================================  ======  =====================
-     Name           Description                                     Pbl      Unit
-    ==============  ==============================================  ======  =====================
+
+    ==============  ==============================================  ======  ===========================
+     Name           Description                                     Pbl     Unit
+    ==============  ==============================================  ======  ===========================
     RKCUTTING       Rate of change amount of potassium in stem
                     cutting                                         Y       g K m-2 ground d-1
     RNCUTTING       Rate of change amount of nitrogen in stem
@@ -73,23 +75,24 @@ class biomass_partitioning(SimulationObject):
     RWRT            Rate of change dry weight of fibrous roots      Y       g DM m-2 ground d-1
     RWSO            Rate of change dry weight of storage organs     N       g DM m-2 ground d-1
     RWST            Rate of change dry weight of stems              N       g DM m-2 ground d-1
-    ==============  ==============================================  ======  =====================
+    ==============  ==============================================  ======  ===========================
 
     ** Auxillary variables **
-    ==============  ==============================================  ======  =====================
-     Name           Description                                     Pbl      Unit
-    ==============  ==============================================  ======  =====================
+
+    ==============  ==============================================  ======  ===========================
+     Name           Description                                     Pbl     Unit
+    ==============  ==============================================  ======  ===========================
     FLV             Partitioning fraction to leaves                  Y      g DM g-1 DM
     FRT             Partitioning fraction to fibrous roots           Y      g DM g-1 DM
     FSO             Partitioning fraction to storage organs          Y      g DM g-1 DM
     FST             Partitioning fraction to stems                   Y      g DM g-1 DM
-    ==============  ==============================================  ======  =====================
+    ==============  ==============================================  ======  ===========================
 
     This class is a Python implementation of the biomass partitioning fraction calculations in the
     R function LINTUL2_CASSAVA_NPK in the R version of the model LINTUL Cassava NPK (Adiele et al.,
     2022; Ezui et al., 2018)
 
-    Authors LINTUL2_Cassava_NPK:     Rob van den Beuken, Joy Adiele, Tom Schut
+    Authors LINTUL2_CASSAVA_NPK:     Rob van den Beuken, Joy Adiele, Tom Schut
     Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
 
     References:
