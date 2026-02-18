@@ -45,7 +45,7 @@ class LINTUL_CASSAVA(SimulationObject):
         self.phenology = phenology(day, kiosk, parvalues)
         self.fibrous_root_growth = fibrous_root_growth(day, kiosk, parvalues)
         self.canopy_rain_interception = canopy_rain_interception(day, kiosk, parvalues)
-        self.penman = penman(day, kiosk, parvalues)
+        # self.penman = penman(day, kiosk, parvalues)
         self.evapotranspiration = evapotranspiration(day, kiosk, parvalues)
         self.npk_stress = npk_stress(day, kiosk, parvalues)
         self.dormancy = dormancy(day, kiosk, parvalues)
@@ -59,7 +59,7 @@ class LINTUL_CASSAVA(SimulationObject):
         self.phenology.calc_rates(day, drv, delt)
         self.fibrous_root_growth.calc_rates(day, drv, delt)
         self.canopy_rain_interception.calc_rates(day, drv, delt)
-        self.penman(day, drv)
+        # self.penman(day, drv)
         self.evapotranspiration(day, drv)
         self.npk_stress(day, drv)
         self.dormancy.calc_rates(day, drv, delt)
@@ -81,6 +81,23 @@ class LINTUL_CASSAVA(SimulationObject):
         self.green_leaf_area.integrate(day, drv)
 
 class LINTUL_CASSAVA_NO_NUTRIENT_STRESS(LINTUL_CASSAVA):
+    def initialize(self, day, kiosk, parvalues):
+        super().initialize(day, kiosk, parvalues)
+        self.npk_stress.NUTRIENT_LIMITED = False
+
+class LINTUL_CASSAVA_original(LINTUL_CASSAVA):
+    def initialize(self, day, kiosk, parvalues):
+        super().initialize(day, kiosk, parvalues)
+        self.penman = penman(day, kiosk, parvalues)
+
+    def calc_rates(self, day, drv, delt = 1):
+        self.penman(day, drv)
+        k = self.kiosk
+        drv.ET0 = k.ET0
+        drv.ES0 = k.ES0
+        super().calc_rates(day, drv, delt = 1)
+
+class LINTUL_CASSAVA_original_NO_NUTRIENT_STRESS(LINTUL_CASSAVA_original):
     def initialize(self, day, kiosk, parvalues):
         super().initialize(day, kiosk, parvalues)
         self.npk_stress.NUTRIENT_LIMITED = False
