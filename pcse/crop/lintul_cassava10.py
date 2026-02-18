@@ -3,7 +3,7 @@ from pcse.crop.lintul_cassava.phenology import phenology
 from pcse.crop.lintul_cassava.canopy_rain_interception import canopy_rain_interception
 from pcse.crop.lintul_cassava.biomass_partitioning import biomass_partitioning
 from pcse.crop.lintul_cassava.dormancy import dormancy
-from pcse.crop.lintul_cassava.lintul_cassava_meteo import penman
+from pcse.crop.lintul_cassava.lintul_cassava_penman import penman
 from pcse.crop.lintul_cassava.evapotranspiration import evapotranspiration
 from pcse.crop.lintul_cassava.fibrous_root_growth import fibrous_root_growth
 from pcse.crop.lintul_cassava.green_leaf_area import green_leaf_area
