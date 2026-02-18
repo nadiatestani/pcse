@@ -1,8 +1,105 @@
+# -*- coding: utf-8 -*-
+# Herman Berghuijs (herman.berghuijs@wur.nl), Allard de Wit (allard.dewit@wur.nl), Tom Schut (tom.schut@wur.nl)
+# February 2026
+
 from pcse.base import ParamTemplate, RatesTemplate, SimulationObject, StatesTemplate
 from pcse.traitlets import Float
 from pcse.util import AfgenTrait
 
 class biomass_partitioning(SimulationObject):
+    """Class to simulate biomass partitioning in the LINTUL Cassava model.
+
+    Simulates allocation of newly produced dry weight to the different organs. The fractions are modified for
+    water availability. Nutrient limitation is also assumed to affect partitioning to the roots
+
+    ** Simulation parameters **
+    ==============  ==============================================  ======  =====================
+     Name           Description                                     Type     Unit
+    ==============  ==============================================  ======  =====================
+    FLVTB           Partitioning fraction to leaves as a function   TCr
+                    of temperature sum.                                     g DM g-1 DM
+    FLV_CUTT        Fraction of initial cutting allocated to leaves TCr     g DM g-1 DM
+    FRTTB           Partitioning fraction to adventious roots as a
+                    function of temperature sum                     TCr     g DM g-1 DM
+    FSO_CUTT        Fraction of initial cutting allocated to
+                    storage organs.                                 TCr     g DM g-1 DM
+    FSOTB           Partitioning fraction to the storage organs as
+                    a function of temperature sum                   TCr     g DM g-1 DM
+    FST_CUTT        Fraction of initial cutting allocated to stems  TCr     g DM g-1 DM
+    FSTTB           Partitioning fraction to stems as a function of
+                    temperature sum.                                TCr     g DM g-1 DM
+    LAICR           Critical LAI beyond which leaf shedding is
+                    simulated                                       SCr     m2 leaf m-2 ground
+    NCUTTINGS       Number of cuttings planted per m2               SCr     cuttings m-2 ground
+    OPTEMERGTSUM    Optimum TSUM from planting to emergence         SCr     | C | d1
+    RDRWCUTTING     Relative decrease rate of cutting weight        SCr     d-1
+    WCUTTINGIP      Weight per stem cutting at planting             SCr     g DM
+    WCUTTINGMINPRO  Minimum fraction of stem cutting that is not
+                    allocated to other organs                       SCr     g DM g-1 DM
+    WCUTTINGUNIT    Average weight per cutting                      SCr     g DM
+    ==============  ==============================================  ======  =====================
+
+
+    ** State variables **
+
+    ==============  ==============================================  ======  =====================
+     Name           Description                                     Pbl      Unit
+    ==============  ==============================================  ======  =====================
+    KCUTTING        Amount of potassium in cutting                  N        g K m-2 ground
+    NCUTTING        Amount of nitrogen in cutting                   N        g N m-2 ground
+    PCUTTING        Amount of phosphorus in cutting                 N        g P m-2 ground
+    WCUTTING        Dry weight of stem cutting                      N        g DM m-2 ground
+    WLV             Dry weight of leaves (both dead and green)      N        g DM m-2 ground
+    WLVG            Dry weight of green leaves                      Y        g DM m-2 ground
+    WSO             Dry weight of storage organs                    Y        g DM m-2 ground
+    WST             Dry weight of stems                             Y        g DM m-2 ground
+    WRT             Dry weight of fibrous roots                     Y        g DM m-2 ground
+    ==============  ==============================================  ======  =====================
+
+    ** Rate variables **
+    ==============  ==============================================  ======  =====================
+     Name           Description                                     Pbl      Unit
+    ==============  ==============================================  ======  =====================
+    RKCUTTING       Rate of change amount of potassium in stem
+                    cutting                                         Y       g K m-2 ground d-1
+    RNCUTTING       Rate of change amount of nitrogen in stem
+                    cutting                                         Y       g N m-2 ground d-1
+    RPCUTTING       Rate of change amount of phosphorus in stem
+                    cutting                                         Y       g P m-2 ground d-1
+    RWCUTTING       Rate of change dry weight of stem cutting       Y       g DM m-2 ground d-1
+    RWLV            Rate of change dry weight of leaves (both
+                    dead and green leaves)                          Y       g DM m-2 ground d-1
+    RWLVG           Rate of change dry weight of green leaves       N
+    RWRT            Rate of change dry weight of fibrous roots      Y       g DM m-2 ground d-1
+    RWSO            Rate of change dry weight of storage organs     N       g DM m-2 ground d-1
+    RWST            Rate of change dry weight of stems              N       g DM m-2 ground d-1
+    ==============  ==============================================  ======  =====================
+
+    ** Auxillary variables **
+    ==============  ==============================================  ======  =====================
+     Name           Description                                     Pbl      Unit
+    ==============  ==============================================  ======  =====================
+    FLV             Partitioning fraction to leaves                  Y      g DM g-1 DM
+    FRT             Partitioning fraction to fibrous roots           Y      g DM g-1 DM
+    FSO             Partitioning fraction to storage organs          Y      g DM g-1 DM
+    FST             Partitioning fraction to stems                   Y      g DM g-1 DM
+    ==============  ==============================================  ======  =====================
+
+    This class is a Python implementation of the biomass partitioning fraction calculations in the
+    R function LINTUL2_CASSAVA_NPK in the R version of the model LINTUL Cassava NPK (Adiele et al.,
+    2022; Ezui et al., 2018)
+
+    Authors LINTUL2_Cassava_NPK:     Rob van den Beuken, Joy Adiele, Tom Schut
+    Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
+
+    References:
+    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
+    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488
+
+    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
+    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
+    https://doi.org/10.1016/j.fcr.2018.01.033
+    """
 
     class Parameters(ParamTemplate):
         LAICR = Float()
@@ -97,10 +194,10 @@ class biomass_partitioning(SimulationObject):
         # Allocation of assimilates to the different organs. The fractions are modified for water availability.
         # Nutrient limitation is also assumed to affect partitioning to the roots.
         FRTMOD = max(1, 1 / (k.RFTRA * k.NPKI + 0.5))  # (-)
+
         # Fibrous roots
         FRT1 = p.FRTTB(k.TSUMCROP)
         FRT = FRT1 * FRTMOD  # (-)
-
         FSHMOD = (1 - FRT) / (1 - FRT / FRTMOD)  # (-)
 
         # Leaves
@@ -130,10 +227,10 @@ class biomass_partitioning(SimulationObject):
         RWST = 0  # g stem DM m-2 d-1
         RWLVG = 0  # g leaves DM m-2 d-1
         RWSO = 0  # g storage root DM m-2 d-1
-        RWCUTTING=0  # g cutting DM m-2 d-1
-        RNCUTTING=0  # g cutting N m-2 d-1
-        RPCUTTING=0  # g cutting P m-2 d-1
-        RKCUTTING=0  # g cutting K m-2 d-1
+        RWCUTTING = 0  # g cutting DM m-2 d-1
+        RNCUTTING = 0  # g cutting N m-2 d-1
+        RPCUTTING = 0  # g cutting P m-2 d-1
+        RKCUTTING = 0  # g cutting K m-2 d-1
 
         # Stem cutting partioning at emergence.
         if (k.EMERG  == 1) & (s.WST == 0):
