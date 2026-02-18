@@ -73,7 +73,6 @@ class canopy_rain_interception(SimulationObject):
         k = self.kiosk
         p = self.params
         r = self.rates
-        s = self.states
 
         # Interception of the canopy, depends on the amount of rainfall and the LAI.
         RTRAIN = drv.RAIN / delt  # cm d-1           : rain rate
