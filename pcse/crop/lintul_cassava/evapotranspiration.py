@@ -52,9 +52,13 @@ class evapotranspiration(SimulationObject):
         limit_evap = min(1, max(0, limit_evap))  # (-)
 
         # Potential evaporation and transpiration are weighed by a factor representing the plant canopy (exp(-0.5 * LAI)).
-        RPEVAP = np.exp(-0.5 * k.LAI) * k.ES0 # cm d-1
-        RPTRAN = (1 - np.exp(-0.5 * k.LAI)) * k.ET0 # cm d-1
+        RPEVAP = np.exp(-0.5 * k.LAI) * drv.ES0 # cm d-1
+        RPTRAN = (1 - np.exp(-0.5 * k.LAI)) * drv.ET0 # cm d-1
         RPTRAN = max(0, RPTRAN - 0.5 * k.RNINTC)  # cm d-1
+
+        # Maximum evaporation from an open water surface (cm). It is not used by the native soil water balance of LINTUL
+        # Cassava, but other soil water balances in PCSE require this as input from evapotranspiration modules.
+        REVAPW = drv.E0
 
         EVAP = RPEVAP * limit_evap  # mm d-1
 
@@ -105,10 +109,6 @@ class evapotranspiration(SimulationObject):
         # which is a measure of how drought resistant the crop is.
         WCSD = p.SMW * p.TWCSD
         WCCR = p.SMW + max(WCSD-p.SMW, (RPTRAN / (RPTRAN + p.TRANCO) * (p.SMFCF-p.SMW)))
-
-        # Maximum evaporation from an open water surface (cm). It is not used by the native soil water balance of LINTUL
-        # Cassava, but other soil water balances in PCSE require this as input from evapotranspiration modules.
-        REVAPW = drv.E0
 
         r.RPEVAP = RPEVAP
         r.RPTRAN = RPTRAN
