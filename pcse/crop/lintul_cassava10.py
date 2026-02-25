@@ -2,7 +2,7 @@ from pcse.base import SimulationObject, ParamTemplate, StatesTemplate, RatesTemp
 from pcse.crop.lintul_cassava.phenology import phenology
 from pcse.crop.lintul_cassava.canopy_rain_interception import canopy_rain_interception
 from pcse.crop.lintul_cassava.biomass_partitioning import biomass_partitioning
-from pcse.crop.lintul_cassava.dormancy import dormancy
+from pcse.crop.lintul_cassava.dormancy_and_recovery import dormancy_and_recovery
 from pcse.crop.lintul_cassava.lintul_cassava_penman import penman
 from pcse.crop.lintul_cassava.evapotranspiration import evapotranspiration
 from pcse.crop.lintul_cassava.fibrous_root_growth import fibrous_root_growth
@@ -47,7 +47,7 @@ class LINTUL_CASSAVA(SimulationObject):
         self.canopy_rain_interception = canopy_rain_interception(day, kiosk, parvalues)
         self.evapotranspiration = evapotranspiration(day, kiosk, parvalues)
         self.npk_stress = npk_stress(day, kiosk, parvalues)
-        self.dormancy = dormancy(day, kiosk, parvalues)
+        self.dormancy = dormancy_and_recovery(day, kiosk, parvalues)
         self.leaf_senescence = leaf_senescence(day, kiosk, parvalues)
         self.light_interception_and_growth = light_interception_and_growth(day, kiosk, parvalues)
         self.biomass_partitioning = biomass_partitioning(day, kiosk, parvalues)
