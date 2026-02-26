@@ -1,8 +1,80 @@
+# -*- coding: utf-8 -*-
+# Herman Berghuijs (herman.berghuijs@wur.nl), Allard de Wit (allard.dewit@wur.nl), Tom Schut (tom.schut@wur.nl)
+# February 2026
+
 from pcse.base import ParamTemplate, RatesTemplate, SimulationObject, StatesTemplate
 from pcse.traitlets import Float
 import numpy as np
 
 class evapotranspiration(SimulationObject):
+    """
+    Class to simulate potential and actual transpiration and soil evpaoration in LINTUL Cassava.
+    
+    First calculates the rates op potential transpiration and soil evaporation from the reference
+    evapotranspiration, the rain interception and the soil moisture content. Next it calculates the
+    critical soil moisture contents above which drought stress occurs or above which oxyen stress 
+    occurs. This is used to calculate both the actual transpiration and actual soil evaporation
+    rates. Finally, a transpiration reduction factor is calculated.     
+    
+    ** Simulation parameters **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Type     Unit
+    =================  ==============================================  ======  ===========================    
+    SMFCF              Soil moisture content at field capacity         SCr      cm3 water cm-2 ground
+    SM0                Soil moisture content at saturation             SCr      cm3 water cm-2 ground
+    SMW                Soil moisture content at wilting point          SCr      cm3 water cm-2 ground
+    TRANCO             Transpiration constant that indicates the 
+                       level of drought tolerance                      SCr      cm3 water cm-2 ground d-1
+    TWCSD              Ratio of soil moisture content at extreme
+                       drought and the soil moisture content at 
+                       wilting point.                                  SCr      cm3 water cm3 water
+    WCAD               Soil moisture content at air dry                SCr      cm3 water cm-3 ground
+    WCWET              Soil moisture content above which oxygen stress
+                       occurs                                          SCr      cm3 water cm-3 ground
+    =================  ==============================================  ======  ===========================    
+    
+    ** State variables **
+
+    None
+
+    ** Rate variables **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    EVWMX              Maximum evaporation rate of an open water
+                       surface                                         Y       cm3 water cm-2 ground d-1
+    EVSMX              Maximum soil evaporation rate                   N       cm3 water cm-2 ground d-1
+    RPEVAP             Potential soil evaporation rate                 N       cm3 water cm-2 ground d-1
+    RPTRAN             Potential transpiration rate                    N       cm3 water cm-2 ground d-1
+    TRA                Actual transpiration rate                       Y       cm3 water cm-2 ground d-1
+
+    ** Auxillary variables **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    RFTRA              Transpiration reduction factor                  Y       cm3 water cm-3 water
+    WCCR               Critical soil moisture content below which
+                       drought stress can occur                        Y       cm3 water cm-3 ground
+    WCSD               Soil moisture content at severe drought         Y       cm3 water cm-3 ground
+
+    This class is a Python implementation of the calculations related to evaporation and transpiration in the
+    R function evaptr in the R version of the model LINTUL Cassava NPK (Adiele et al.,2022; Ezui et al., 2018)
+
+    Authors LINTUL2_CASSAVA_NPK:     Rob van den Beuken, Joy Adiele, Tom Schut
+    Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
+
+    References:
+    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
+    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488
+
+    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
+    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
+    https://doi.org/10.1016/j.fcr.2018.01.033    
+    """
+    
     class Parameters(ParamTemplate):
         TRANCO = Float()
         TWCSD = Float()
@@ -29,7 +101,7 @@ class evapotranspiration(SimulationObject):
         self.kiosk = kiosk
         self.params = self.Parameters(parameters)
         self.rates = self.RateVariables(kiosk,
-                                        publish = ["RPTRAN", "RPEVAP", "EVSMX", "TRA", "RFTRA", "WCCR", "WCSD", "EVWMX"])
+                                        publish = ["EVSMX", "TRA", "RFTRA", "WCCR", "WCSD", "EVWMX"])
         self.states = self.StateVariables(
             kiosk,
             publish=[]
