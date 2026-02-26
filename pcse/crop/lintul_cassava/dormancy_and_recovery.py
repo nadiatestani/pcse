@@ -17,65 +17,94 @@ class dormancy_and_recovery(SimulationObject):
 
     ** Simulation parameters **
 
-    ================= ==============================================  ======  ===========================
-    Name              Description                                     Pbl     Unit
-    ================= ==============================================  ======  ===========================
-    DELREDIST         Delay for redistribution of dry matter          SCr      |C| d
-    LAI_MIN           Leaf are index below which the dormancy phase
-                      can be entered.                                 SCr      |C| d
-    RECOV             Fraction of soil moisture content above which
-                      the crop recovers from dormancy to the
-                      critical soil moisture content                  SCr      cm water cm-1 water
-    RREDISTSO         Relative rate of dry matter redistribution
-                      from the storage organs to leaves
-    SMW               Soil moisture content at wilting point          SCr      cm3 water cm-3 soil
-    SO2LV             Conversion rate of storage organ dry matter
-                      to leaf dry matter                              SCr      g DM g-1 DM
-    TSUMSBR           Temperature sum at which first branching takes
-                      place                                           SCr      |C| d
-    TSUMREDISTMAX     Temperature sum of duration of dry matter
-                      redistribution                                  SCr      |C| d
-    WSOREDISTFRACMAX  Maximum fraction of storage organ dry matter
-                      that can be redistributed to the leaves.        SCr      |C| d
-    WLVGNEW           Minimum amount of dry matter of new leaves that
-                      can be produced in the redistribution phase.    SCr      g DM m-2 ground
-    ================= ==============================================  ======  ===========================
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Type     Unit
+    =================  ==============================================  ======  ===========================
+    DELREDIST          Delay for redistribution of dry matter          SCr      |C| d
+    LAI_MIN            Leaf are index below which the dormancy phase
+                       can be entered.                                 SCr      |C| d
+    RECOV              Fraction of soil moisture content above which
+                       the crop recovers from dormancy to the
+                       critical soil moisture content                  SCr      cm water cm-1 water
+    RREDISTSO          Relative rate of dry matter redistribution
+                       from the storage organs to leaves
+    SMW                Soil moisture content at wilting point          SCr      cm3 water cm-3 soil
+    SO2LV              Conversion rate of storage organ dry matter
+                       to leaf dry matter                              SCr      g DM g-1 DM
+    TSUMSBR            Temperature sum at which first branching takes
+                       place                                           SCr      |C| d
+    TSUMREDISTMAX      Temperature sum of duration of dry matter
+                       redistribution                                  SCr      |C| d
+    WSOREDISTFRACMAX   Maximum fraction of storage organ dry matter
+                       that can be redistributed to the leaves.        SCr      |C| d
+    WLVGNEW            Minimum amount of dry matter of new leaves that
+                       can be produced in the redistribution phase.    SCr      g DM m-2 ground
+    =================  ==============================================  ======  ===========================
 
     ** State variables **
 
-    ================= ==============================================  ======  ===========================
-    Name              Description                                     Pbl     Unit
-    ================= ==============================================  ======  ===========================
-    DORMTIME          Number of days that the crop was in dormancy    N       d
-    DORMTSUM          Temperature sum of dormancy period              N       |C| d
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    DORMTIME           Number of days that the crop was in dormancy    N       d
+    DORMTSUM           Temperature sum of dormancy period              N       |C| d
     PUSHREDISTENDTSUM
     PUSHDORMRECTSUM
     PUSHREDISTSUM
-    REDISTLVG         Amount of green dry weight that was produced
-                      by dry weight redistribution from storage
-                      organs to green leaves                          N       g DM m-2 ground
-    REDISTSO          Amount of storage organ dry weight that was     N
-                      lost due to dry weight redistribution
-                      from storage organs to green leaves.                    g DM m-2 ground
-    ================= ==============================================  ======  ===========================
+    REDISTLVG          Amount of green dry weight that was produced
+                       by dry weight redistribution from storage
+                       organs to green leaves                          N       g DM m-2 ground
+    REDISTSO           Amount of storage organ dry weight that was     N
+                       lost due to dry weight redistribution
+                       from storage organs to green leaves.                    g DM m-2 ground
+    =================  ==============================================  ======  ===========================
 
     ** Rate variables **
 
-    ================= ==============================================  ======  ===========================
-    Name              Description                                     Pbl     Unit
-    ================= ==============================================  ======  ===========================
-    DORMTSUM          Indicates whether (1) or not (0) the crop is
-                      in the dormancy phase                           Y        -
-    RDORMTIME
-    RDORMTSUM
-    RPUSHDORMRECTSUM
-    RPUSHREDISTENDTSUM
-    RREDISTLVG        Rate of change of green leaf dry weight due
-                      to redistribution from storage organs to
-                      green leaves
-    RREDISTSO         Rate of change of storage organdry weight
-                      due to redistribution from storage organs to
-                      green leaves
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    RDORMTIME          Rate at which the number of days in dormancy
+                       changes                                         N        d d-1
+    RDORMTSUM          Rate of change of temperature sum for the 
+                       cperiod in which the rop is in dormancy         N        (|C| d) d-1
+    RPUSHDORMRECTSUM                                                   N        -
+    RPUSHREDISTSUM                                                     N        -
+    RPUSHREDISTENDTSUM                                                 N        -
+    RREDISTLVG         Rate of change of green leaf dry weight due     N        g DM m-2 ground d-1
+                       to redistribution from storage organs to        Y
+                       green leaves                                    Y        g DM m-2 ground d-1
+    RREDISTSO          Rate of change of storage organdry weight
+                       due to redistribution from storage organs to
+                       green leaves
+    =================  ==============================================  ======  ===========================
+
+    ** Auxillary variables **
+    
+    
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================    
+    DORMANCY           Indicates whether (1) or not (0) the crop is          
+                       in the dormancy phase                           Y        -
+    PUSHREDIST                                                         Y     
+    =================  ==============================================  ======  ===========================    
+
+    This class is a Python implementation of the calculations related to dormancy and recovery in the
+    R function LINTUL2_CASSAVA_NPK in the R version of the model LINTUL Cassava NPK (Adiele et al.,
+    2022; Ezui et al., 2018)
+
+    Authors LINTUL2_CASSAVA_NPK:     Rob van den Beuken, Joy Adiele, Tom Schut
+    Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
+
+    References:
+    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
+    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488
+
+    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
+    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
+    https://doi.org/10.1016/j.fcr.2018.01.033
+
     """
 
     class Parameters(ParamTemplate):
@@ -91,6 +120,7 @@ class dormancy_and_recovery(SimulationObject):
         SMW = Float()
 
     class RateVariables(RatesTemplate):
+        DORMANCY = Float()
         RDORMTSUM = Float()
         RPUSHDORMRECTSUM = Float()
         RPUSHREDISTENDTSUM = Float()
@@ -98,7 +128,6 @@ class dormancy_and_recovery(SimulationObject):
         RREDISTLVG = Float()
         RREDISTSO = Float()
         RPUSHREDISTSUM = Float()
-        DORMANCY = Float()
         PUSHREDIST = Float()
 
     class StateVariables(StatesTemplate):
