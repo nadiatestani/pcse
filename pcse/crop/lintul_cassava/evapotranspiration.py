@@ -8,11 +8,11 @@ import numpy as np
 
 class evapotranspiration(SimulationObject):
     """
-    Class to simulate potential and actual transpiration and soil evpaoration in LINTUL Cassava.
+    Class to simulate potential and actual transpiration and soil evaporation in LINTUL Cassava.
     
-    First calculates the rates op potential transpiration and soil evaporation from the reference
+    The class first calculates the rates op potential transpiration and soil evaporation from the reference
     evapotranspiration, the rain interception and the soil moisture content. Next it calculates the
-    critical soil moisture contents above which drought stress occurs or above which oxyen stress 
+    critical soil moisture contents above which drought stress occurs or above which oxygen stress
     occurs. This is used to calculate both the actual transpiration and actual soil evaporation
     rates. Finally, a transpiration reduction factor is calculated.     
     
