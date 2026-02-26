@@ -86,10 +86,6 @@ class soil_water_dynamics(SimulationObject):
                                           publish = ["W", "SM"],
                                           W = W,
                                           SM = SM,
-                                          TRAN = 0.,
-                                          EVAP = 0.,
-                                          PTRAN = 0.,
-                                          PEVAP = 0.,
                                           RUNOFF = 0.,
                                           DRAIN = 0.,
                                           WCCR=WCCR
@@ -134,6 +130,9 @@ class soil_water_dynamics(SimulationObject):
         # evaporation rate is not affected by the number of days with a dry soil before the current day. EVS and
         # EVSMX nevertheless stored separately for for consistency with other soil water modules in PCSE.
         r.EVS = k.EVSMX
+        r.RIRRIG = RIRRIG
+        r.RUNOFF = RRUNOFF
+        r.RDRAIN = RDRAIN
 
     def integrate(self, day, drv, delt = 1):
         k = self.kiosk
