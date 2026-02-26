@@ -56,8 +56,6 @@ class fibrous_root_growth(SimulationObject):
 
     """
 
-
-
     class Parameters(ParamTemplate):
         RDI = Float()
         RDMSOL = Float()
@@ -85,7 +83,7 @@ class fibrous_root_growth(SimulationObject):
     def calc_rates(self,  day, drv, delt=1):
         # If the soil water content drops to, or below, wilting point fibrous root growth stops.
         # Root growth continues till the maximum rooting depth is reached.
-        # The rooting depth (m) is calculated from a maximum rate of change in rooting depth,
+        # The rooting depth (cm) is calculated from a maximum rate of change in rooting depth,
         # the emergence of the crop and the constraints mentioned above.
 
         k = self.kiosk
