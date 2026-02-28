@@ -1,9 +1,73 @@
+# -*- coding: utf-8 -*-
+# Herman Berghuijs (herman.berghuijs@wur.nl), Allard de Wit (allard.dewit@wur.nl), Tom Schut (tom.schut@wur.nl)
+# February 2026
+
 from pcse.base import ParamTemplate, RatesTemplate, SimulationObject, StatesTemplate
 from pcse.traitlets import Float
 from pcse.util import AfgenTrait
 
 class leaf_senescence(SimulationObject):
+    """
+    Class to simulate the growth of green leaf area index.
 
+    This class calculates the various mechanisms that lead to leaf senescence and, because of that, a reduction
+    of the leaf area index. Green leaf tissue can either die due to 1) Ageing, 2) Leaf shedding in case of
+    too much self shading, 3) severe drought, or 4) nutrient limitation.
+
+    ** Simulation parameters **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Type     Unit
+    =================  ==============================================  ======  ===========================
+    FASTRANSLO         Fraction of senescened leaf dry matterr that
+                       is transferred to the storage organs before
+                       shedding                                        SCr     g DM g-1 DM
+    FRACTLLFENHSH      Fraction of maximum leaf age above which leaf
+                       shedding is enhanced.                           SCr      -
+    FRACSLATB          Fraction of actual specific leaf area to the
+                       maximum specific leaf area as a function of
+                       temperature sum                                 TCr      -
+    LAICR              Critical leaf area index above which leaf
+                       shedding is induced                             SCr      m2 leaf m-2 ground
+    RDRB               Relative death rates of leaves in absence
+                       of water and nutrient stress                    SCr      d-1
+    RDNS               Addition factor for leaf death due to nutrient
+                       stress                                          SCr      d-1
+    RDRT               Relative death rate of leaves due to
+                       temperature                                     SCr      d-1
+    RDRSHM             Relative death rate of leaves due to self-
+                       shading                                         SCr      d-1
+    SLA_MAX            Maximum specific leaf area                      SCr      m2 leaf kg-1 leaf
+    TSUMLIFE           Temperature sum of leaf life above which
+                       leaf senescence due to ageing starts            SCr      |C| d
+    WCWET              Soil moisture content above which oxyen stress
+                       occurs.                                         SCr      cm3 water cm-3 ground
+    =================  ==============================================  ======  ===========================
+
+    ** State variales **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    TSUMCROPLEAFAGE    Physiological leaf age                          N       |C| d
+    WLVD               Dry weight of senescened leaf dry matter        Y       g DM m-2 ground
+    WSOFRACTRANSLO     Amount of storage organ dry matter produced
+                       by translocation of senescenced leaf organ
+                       dry matter to storage organs.                   N       g DM m-2 ground
+
+
+    ** Rate variales **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    DLAI               Death rate of leaf area index                   Y       m2 leaf m-2 ground d-1
+    DLV                Death rate of leaf dry matter                   Y       g DM m-2 d-1
+    RTSUMCROPLEAFAGE   Rate of increase of crop physiological age      Y       |C|
+    RWLVD              Rate of increase of dead leaf dry matter        Y       g DM m-2 d-1
+    RWSOTRANSLSO
+    =================  ==============================================  ======  ===========================
+    """
     class Parameters(ParamTemplate):
         FRACTLLFENHSH = Float()
         FRACSLATB = AfgenTrait()

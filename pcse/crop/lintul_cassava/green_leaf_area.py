@@ -8,10 +8,10 @@ from pcse.traitlets import Float
 
 class green_leaf_area(SimulationObject):
     """
-    Class to simulate the dynamics of green leaf area index.
+    Class to simulate the growth of green leaf area index.
 
-    The class calculates the growth and decline of the leaf area index from crop emergence. Its growth can be
-    reduced by both water stress and nutrient stress.
+    The class calculates the growth of the leaf area index from crop emergence. Its growth can be reduced
+    by both water stress and nutrient stress.
 
     ** Simulation parameters **
 
