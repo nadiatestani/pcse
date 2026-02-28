@@ -48,8 +48,8 @@ class green_leaf_area(SimulationObject):
     =================  ==============================================  ======  ===========================
 
     This class is a Python implementation of the calculations related to the dynamics of the green leaf
-    area in the R function LINTUL2_CASSAVA_NPK in the R version of the model LINTUL Cassava NPK (Adiele et al.,
-    2022; Ezui et al., 2018)
+    area in the R function GLAI in the R version of the model LINTUL Cassava NPK (Adiele et al., 2022;
+    Ezui et al., 2018)
 
     Authors LINTUL2_CASSAVA_NPK:     Rob van den Beuken, Joy Adiele, Tom Schut
     Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
