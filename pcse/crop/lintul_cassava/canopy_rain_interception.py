@@ -45,7 +45,8 @@ class canopy_rain_interception(SimulationObject):
 
     References:
     Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
-    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488
+    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488.
+    https://doi.org/10.1007/s13593-020-00649-w
 
     Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
     and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.

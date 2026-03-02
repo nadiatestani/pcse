@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# Herman Berghuijs (herman.berghuijs@wur.nl), Allard de Wit (allard.dewit@wur.nl), Tom Schut (tom.schut@wur.nl)
+# February 2026
+
 from pcse.traitlets import Float
 from pcse.base import ParamTemplate, RatesTemplate, SimulationObject, StatesTemplate
 
@@ -60,7 +64,8 @@ class phenology(SimulationObject):
 
     References:
     Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
-    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488
+    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488.
+    https://doi.org/10.1007/s13593-020-00649-w
 
     Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
     and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
