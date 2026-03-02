@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# Herman Berghuijs (herman.berghuijs@wur.nl), Allard de Wit (allard.dewit@wur.nl), Tom Schut (tom.schut@wur.nl)
+# February 2026
+
 import numpy as np
 from pcse.base import ParamTemplate, RatesTemplate, SimulationObject, StatesTemplate
 from pcse.traitlets import Float
@@ -6,7 +10,66 @@ from pcse.util import AfgenTrait
 J_to_MJ = 1e-6
 
 class light_interception_and_growth(SimulationObject):
+    """
+    Class to simulate the light interception and subsequent production of new dry matter
 
+    This class calculates the amount of light that is intercepted using Lambert-Beer's law. The daily potential dry
+    matter production is calculated as the product of the amount of intercepted light and the light use efficiency.
+    The actual dry matter production is also calculated. This can be smaller than the potential dry matter production
+    in case of water stress, nutrient stress or suboptimal temperatures.
+
+    ** Simulation parameters **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Type    Unit
+    =================  ==============================================  ======  ===========================
+    FPAR               Fraction of PAR in global radiation             SCr     MJ PAR MJ-1 radiation
+    K_EXT              Extinction coefficient of light in the canopy   SCr     m2 ground m-2 leaf
+    LUE_OPT            Light use efficiency in absence of water or
+                       nutrient stress and under optimal temperatures  SCr     g DM MJ-1 PAR
+    TTB                Reduction rate of light use efficiency due to
+                       suboptimal temperatures as a table function of
+                       temperature                                     TCr     -
+    =================  ==============================================  ======  ===========================
+
+    ** State variables **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    PAR                Total amount of intercepted PAR                 Y       MJ PAR m-2 ground
+    ================   ==============================================  ======  ===========================
+
+    ** Rate variables **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    RPAR               Daily rate of PAR interception                  N       MJ PAR m-2 ground d-1
+    ================   ==============================================  ======  ===========================
+
+    ** Auxillary variables variables **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    GTOTAL             Rate of total dry matter production             Y       g DM m-2 ground d-1
+    =================  ==============================================  ======  ===========================
+
+    This class is a Python implementation of the calculations related to light inteception and growth in the R function
+    LINTUL2_CASSAVA_NPK in theR version of the model LINTUL Cassava NPK (Adiele et al., 2022; Ezui et al., 2018)
+
+    Authors LINTUL2_CASSAVA_NPK:     Rob van den Beuken, Joy Adiele, Tom Schut
+    Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
+
+    References:
+    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
+    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488
+
+    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
+    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
+    https://doi.org/10.1016/j.fcr.2018.01.033
+    """
     class Parameters(ParamTemplate):
         FPAR = Float()
         K_EXT = Float()

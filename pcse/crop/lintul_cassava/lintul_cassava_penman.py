@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# Herman Berghuijs (herman.berghuijs@wur.nl), Allard de Wit (allard.dewit@wur.nl), Tom Schut (tom.schut@wur.nl)
+# February 2026
+
 from pcse.base import ParamTemplate, RatesTemplate, SimulationObject, StatesTemplate
 from pcse.traitlets import Float
 import numpy as np
@@ -9,6 +13,38 @@ mm_to_cm = 1e-1
 cm_to_mm = 1e1
 
 class penman(SimulationObject):
+    """
+    Class to simulate the reference evapotranspiration rate according to the Penman method
+
+    This class calculates the reference evapotranspiration rate of a bare soil and a crop according to Penman (1948).
+
+    ** Auxillary variables **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    ES0                Evapotranspiration rate of a bare soil          Y
+    =================  ==============================================  ======  ===========================
+
+    This class is a Python implementation of the calculations related to the reference evapotranspiration rate in the
+    R function penman in the R version of the model LINTUL Cassava NPK (Adiele et al., 2022; Ezui et al., 2018). The
+    original R function penman also included calculations of the actual soil evaporation and transpiration rates. For
+    the sake of compatibility with the other modules in PCSE, these calculations were moved to the class
+    evapotranspiration in evapotranspiration.py.
+
+    Authors LINTUL2_CASSAVA_NPK:     Rob van den Beuken
+    Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
+
+    References:
+    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
+    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488
+
+    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
+    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
+    https://doi.org/10.1016/j.fcr.2018.01.033
+
+    Penman H.L. (1948) Natural evaporation from open water, bare soil, and grass. Proc. Roy. Soc. London. A193: 120-146
+    """
     class Parameters(ParamTemplate):
         pass
 
@@ -31,8 +67,6 @@ class penman(SimulationObject):
 
     def __call__(self, day, drv, delt = 1):
         # Potential evaporation and transpiration are calculated using the Penman equation.
-        k = self.kiosk
-        p = self.params
         r = self.rates
 
         # Determine weather conditions
