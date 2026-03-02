@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# Herman Berghuijs (herman.berghuijs@wur.nl), Allard de Wit (allard.dewit@wur.nl), Tom Schut (tom.schut@wur.nl)
+# February 2026
+
 import numpy as np
 
 from pcse.traitlets import Bool, Float, Instance
@@ -5,6 +9,104 @@ from pcse.base import ParamTemplate, RatesTemplate, SimulationObject, StatesTemp
 from pcse.crop.lintul_cassava.lintul_cassava_util import afgen2cols
 
 class npk_stress(SimulationObject):
+    """
+    Class to simulate nutrient stress indices
+
+    This class calculates nutrient stress indices that are used to calculate how deficiencies of N, P, and K affect
+    the dry matter production, leaf senescence and the the biomass partitioning.
+
+    ** Simulation parameters **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Type    Unit
+    =================  ==============================================  ======  ===========================
+    FR_MAX             Fraction of optimal and maximum concentration
+                       of nitrogen, potassimu, and phosphorus in
+                       each organ                                      SCr     g nutrient g-1 nutrient
+    NMINMAXLV          Minimum and maximum N concentrations in leaves
+                       as a function of temperature sum.               TCr     g N kg-1 DM
+    NMINMAXRT          Minimum and maximum N concentrations in roots
+                       as a function of temperature sum.               TCr     g N kg-1 DM
+    NMINMAXSO          Minimum and maximum N concentrations in storage
+                       organs as a function of temperature sum.        TCr     g N kg-1 DM
+    NMINMAXST          Minimum and maximum N concentrations in stems
+                       as a function of temperature sum.               TCr     g N kg-1 DM
+    KMINMAXLV          Minimum and maximum P concentrations in leaves
+                       as a function of temperature sum.               TCr     g K kg-1 DM
+    K_MAX              Maximum value of K in Monod function.           SCr     -
+    K_NPK_NI           K value in Monod relationship to reduce
+                       influence of slightly lower NI value. A higher
+                       values give quicker stress.                     SCr     -
+    KMINMAXRT          Minimum and maximum K concentrations in roots
+                       as a function of temperature sum.               TCr     g K kg-1 DM
+    KMINMAXSO          Minimum and maximum K concentrations in storage
+                       organs as a function of temperature sum.        TCr     g K kg-1 DM
+    KMINMAXST          Minimum and maximum K concentrations in stems
+                       as a function of temperature sum.               TCr     g K kg-1 DM
+    PMINMAXLV          Minimum and maximum K concentrations in leaves
+                       as a function of temperature sum.               TCr     g P kg-1 DM
+    PMINMAXRT          Minimum and maximum P concentrations in roots
+                       as a function of temperature sum.               TCr     g P kg-1 DM
+    PMINMAXSO          Minimum and maximum P concentrations in storage
+                       organs as a function of temperature sum.        TCr     g P kg-1 DM
+    PMINMAXST          Minimum and maximum P concentrations in stems
+                       as a function of temperature sum.               TCr     g P kg-1 DM
+    TSUM_NPKI          Temperature sum below which there is
+                       no nutrient stress                              SCr     |C| d
+    =================  ==============================================  ======  ===========================
+
+    ** Auxillary variables parameters **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    NNI                Nitrogen Nutrition Index                        Y       -
+    PNI                Phosphorus Nutrition Index                      Y       -
+    KNI                Potassium Nutrition Index                       Y       -
+    NPKI               Lumped N,P, and K Nutrition Index               Y       -
+
+    NMINLV             Minimum N concentration in leaves               Y       g N kg-1 DM
+    PMINLV             Minimum P concentration in leaves               Y       g P kg-1 DM
+    KMINLV             Minimum K concentration in leaves               Y       g K kg-1 DM
+    NMINST             Minimum N concentration in stems                Y       g N kg-1 DM
+    PMINST             Minimum P concentration in stems                Y       g P kg-1 DM
+    KMINST             Minimum K concentration in stems                Y       g K kg-1 DM
+    NMINSO             Minimum N concentration in storage organs       Y       g N kg-1 DM
+    PMINSO             Minimum P concentration in storage organs       Y       g P kg-1 DM
+    KMINSO             Minimum K concentration in storage organs       Y       g K kg-1 DM
+    NMINRT             Minimum N concentration in roots                Y       g N kg-1 DM
+    PMINRT             Minimum K concentration in roots                Y       g N kg-1 DM
+    KMINRT             Minimum P concentration in roots                Y       g N kg-1 DM
+    NMAXLV             Maximum N concentration in leaves               Y       g N kg-1 DM
+    PMAXLV             Maximum P concentration in leaves               Y       g P kg-1 DM
+    KMAXLV             Maximum K concentration in leaves               Y       g K kg-1 DM
+    NMAXST             Maximum N concentration in stems                Y       g N kg-1 DM
+    PMAXST             Maximum P concentration in stems                Y       g P kg-1 DM
+    KMAXST             Maximum K concentration in stems                Y       g K kg-1 DM
+    NMAXSO             Maximum N concentration in storage organs       Y       g N kg-1 DM
+    PMAXSO             Maximum P concentration in storage organs       Y       g P kg-1 DM
+    KMAXSO             Maximum K concentration in storage organs       Y       g K kg-1 DM
+    NMAXRT             Maximum N concentration in roots                Y       g N kg-1 DM
+    PMAXRT             Maximum K concentration in roots                Y       g N kg-1 DM
+    KMAXRT             Maximum P concentration in roots                Y       g N kg-1 DM
+    =================  ==============================================  ======  ===========================
+
+    This class is a Python implementation of the calculations related to nutrient nutrition indices for each nutrient
+    and a combined nutrion index NPKI in the R functions npkical and Mirrored_Monod in the R version of the model
+    LINTUL Cassava NPK (Adiele et al., 2022; Ezui et al., 2018).
+
+    Authors LINTUL2_CASSAVA_NPK:     Rob van den Beuken, Joy Adiele, Tom Schut
+    Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
+
+    References:
+    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
+    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488
+
+    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
+    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
+    https://doi.org/10.1016/j.fcr.2018.01.033
+    """
+
     NUTRIENT_LIMITED = True
 
     class Parameters(ParamTemplate):
