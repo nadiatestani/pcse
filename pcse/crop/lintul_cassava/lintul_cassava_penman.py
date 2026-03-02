@@ -23,14 +23,15 @@ class penman(SimulationObject):
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
     =================  ==============================================  ======  ===========================
-    ES0                Evapotranspiration rate of a bare soil          Y
+    ES0                Evapotranspiration rate of a bare soil          Y       cm3 water cm-2 ground d-1
+    ET0                Evapotranspiration rate of grass                Y       cm3 water cm-2 ground d-1
     =================  ==============================================  ======  ===========================
 
     This class is a Python implementation of the calculations related to the reference evapotranspiration rate in the
     R function penman in the R version of the model LINTUL Cassava NPK (Adiele et al., 2022; Ezui et al., 2018). The
     original R function penman also included calculations of the actual soil evaporation and transpiration rates. For
     the sake of compatibility with the other modules in PCSE, these calculations were moved to the class
-    evapotranspiration in evapotranspiration.py.
+    pcse.crop.lintul_cassava.evapotranspiration in .../pcse/crop/lintul_cassava/evapotranspiration.py.
 
     Authors LINTUL2_CASSAVA_NPK:     Rob van den Beuken
     Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
