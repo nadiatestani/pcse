@@ -1,11 +1,125 @@
+# -*- coding: utf-8 -*-
+# Herman Berghuijs (herman.berghuijs@wur.nl), Allard de Wit (allard.dewit@wur.nl), Tom Schut (tom.schut@wur.nl)
+# February 2026
+
 from pcse.base import ParamTemplate, RatesTemplate, SimulationObject, StatesTemplate
 from pcse.traitlets import Float
 
 class crop_nutrient_dynamics(SimulationObject):
+    """
+    Class to simulate the dynamics of N, P, and K in the crop
+
+    This class calculates the daily rates of N, P, and K uptake in the crop and their partitioning over the different
+    organs.
+
+
+    ** Simulation parameters **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Type    Unit
+    =================  ==============================================  ======  ===========================
+    FR_MAX             Fraction of optimal and maximum concentration
+                       of N, P, and K in each organ                    SCr     g nutrient g-1 nutrient
+    K_WATER            RFTRA value at which the nutrient uptake rate
+                       is reduced by a half due to water stress        SCr     -
+    NFLVD              Nitrogen concentration of dead leaves           SCr     g N g-1 DM
+    KFLVD              Potassium concentration of dead leaves          SCr     g K g-1 DM
+    PFLVD              Phosphorus concentration of dead leaves         SCr     g P g-1 DM
+    SLOPE_NEQ_
+    SOILSUPPLY_
+    NEQ_PLANTUPTAKE                                                    SCr     -
+    TCNPKT             Time coefficient of N, P, and K translocation   SCr     d
+    =================  ==============================================  ======  ===========================
+
+    ** State variables **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    ANLVD              Amount of nitrogen in dead leaves               N       g N m-2 ground
+    ANLVG              Amount of nitrogen in green leaves              Y       g N m-2 ground
+    ANRT               Amount of nitrogen in roots                     Y       g N m-2 ground
+    ANSO               Amount of nitrogen in storage organs            Y       g N m-2 ground
+    ANST               Amount of nitrogen in stems                     Y       g N m-2 ground
+    AKLVD              Amount of potassium in dead leaves              N       g K m-2 ground
+    AKLVG              Amount of potassium in green leaves             Y       g K m-2 ground
+    AKRT               Amount of potassium in roots                    Y       g K m-2 ground
+    AKSO               Amount of potassium in storage organs           Y       g K m-2 ground
+    AKST               Amount of potassium in stems                    Y       g K m-2 ground
+    APLVD              Amount of phosphorus in dead leaves             N       g P m-2 ground
+    APLVG              Amount of phosphorus in green leaves            Y       g P m-2 ground
+    APRT               Amount of phosphorus in roots                   Y       g P m-2 ground
+    APSO               Amount of phosphorus in storage organs          Y       g P m-2 ground
+    APST               Amount of phosphorus in stems                   Y       g P m-2 ground
+    =================  ==============================================  ======  ===========================
+
+    ** Rate variables **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    RANLVD             Rate of change of the amount of nitrogen in
+                       dead leaves                                     N       g N m-2 ground d-1
+    RANLVG             Rate of change of the amount of nitrogen in
+                       green leaves                                    N       g N m-2 ground d-1
+    RANRT              Rate of change of the amount of nitrogen in
+                       roots                                           N       g N m-2 ground d-1
+    RANSO              Rate of change of the amount of nitrogen in
+                       storage organs                                  N       g N m-2 ground d-1
+    RANST              Rate of change of the amount of nitrogen in
+                       stems                                           N       g N m-2 ground d-1
+    RAKLVD             Rate of change of the amount of potassium in
+                       dead leaves                                     N       g K m-2 ground d-1
+    RAKLVG             Rate of change of the amount of potassium in
+                       green leaves                                    N       g K m-2 ground d-1
+    RAKRT              Rate of change of the amount of potassium in
+                       roots                                           N       g K m-2 ground d-1
+    RAKSO              Rate of change of the amount of potassium in
+                       storage organs                                  N       g K m-2 ground d-1
+    RAKST              Rate of change of the amount of potassium in
+                       stems                                           N       g K m-2 ground d-1
+    RAPLVD             Rate of change of the amount of phosphorus in
+                       dead leaves                                     N       g P m-2 ground d-1
+    RAPLVG             Rate of change of the amount of phosphorus in
+                       green leaves                                    N       g P m-2 ground d-1
+    RAPRT              Rate of change of the amount of phosphorus in
+                       roots                                           N       g P m-2 ground d-1
+    RAPSO              Rate of change of the amount of phosphorus in
+                       storage organs                                  N       g P m-2 ground d-1
+    RAPST              Rate of change of the amount of phosphorus in
+                       stems                                           N       g P m-2 ground d-1
+    =================  ==============================================  ======  ===========================
+
+    ** Auxillary variables **
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    RNUPTR             Daily total nitrogen uptake rate                Y       g N m-2 ground d-1
+    RKUPTR             Daily total potassium uptake rate               Y       g K m-2 ground d-1
+    RPUPTR             Daily total phosphorus uptake rate              Y       g P m-2 ground d-1
+    =================  ==============================================  ======  ===========================
+
+    This class is a Python implementation of the calculations related to nutrient uptake and their partitioning
+    in the R function nutrientdyn in the R version of the model LINTUL Cassava NPK (Adiele et al., 2022; Ezui et
+    al., 2018). The original R version also contained calculations related to the soil supply of N, P, and K. For the
+    sake of compatibility with other PCSE modules, these calculations are moved to the class
+    pcse.soil.lintul_cassava.lintul_cassava_soil_nutrient_dynamics in
+    .../pcse/soil/lintul_cassava_soil_nutrient_dynamics.py.
+
+    Authors LINTUL2_CASSAVA_NPK:     Rob van den Beuken, Joy Adiele, Tom Schut
+    Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
+
+    References:
+    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
+    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488
+
+    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
+    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
+    https://doi.org/10.1016/j.fcr.2018.01.033
+    """
 
     class Parameters(ParamTemplate):
         FR_MAX = Float()
-        NLAI = Float()
         K_WATER = Float()
         SLOPE_NEQ_SOILSUPPLY_NEQ_PLANTUPTAKE = Float()
         NFLVD = Float()
@@ -422,7 +536,6 @@ class crop_nutrient_dynamics(SimulationObject):
         r.RNUPTR = RNUPTR
         r.RPUPTR = RPUPTR
         r.RKUPTR = RKUPTR
-        #self.WLIMIT = WLIMIT
 
     def integrate(self, day, drv, delt = 1):
         r = self.rates
