@@ -1,3 +1,13 @@
+# -*- coding: utf-8 -*-
+# Herman Berghuijs (herman.berghuijs@wur.nl), Allard de Wit (allard.dewit@wur.nl), Tom Schut (tom.schut@wur.nl)
+# February 2026
+
+# This file contains a helper function to calculate table functions that consists of three columns and an index. This
+# type of table function is not included in util.py in PCSE. The first elemeent in each row of the table function
+# consists of a value of the control variable x. The second and the third table consist of independent variables.
+# The column index col_id indicates whether the second column (col_id = 1) or the third column (col_id = 3) is used for
+# the interpolation.
+
 import numpy as np
 
 def afgen2cols(tbl_xyz, x, col_id):
