@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# Herman Berghuijs (herman.berghuijs@wur.nl), Allard de Wit (allard.dewit@wur.nl), Tom Schut (tom.schut@wur.nl)
+# March 2026
+
 from pcse.base import ParamTemplate, RatesTemplate, SimulationObject, StatesTemplate
 from pcse.traitlets import Float
 
@@ -8,6 +12,23 @@ kg_to_g = 1000
 ha_to_m2 = 10000
 
 class soil_nutrient_dynamics_PP(SimulationObject):
+    """
+    Class to simulate N, P, and K dynamics in soil under non-nutrient limited conditions
+
+    This class simulates a fake water balance of the dynamics of the amounts of N, P, and K that are available for
+    root uptake. Arbitrary values are assigned to these amount at each simulated day. This class is used to run LINTUL
+    Cassava under non-nutrient limited conditions.
+
+    ** State variables **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    NAVAIL             Amount of available nitrogen in soil            Y       g N m-2 ground d-1
+    KAVAIL             Amount of available potassium in soil           Y       g K m-2 ground d-1
+    PAVAIL             Amount of available phosphorus in soil          Y       g P m-2 ground d-1
+    =================  ==============================================  ======  ===========================
+    """
     class Parameters(ParamTemplate):
         pass
 
@@ -42,6 +63,8 @@ class soil_nutrient_dynamics_PP(SimulationObject):
         self.touch()
 
 class soil_nutrient_dynamics(SimulationObject):
+
+
     # Placeholders
     _RFERTN = None
     _RFERTP = None
