@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# Herman Berghuijs (herman.berghuijs@wur.nl), Allard de Wit (allard.dewit@wur.nl), Tom Schut (tom.schut@wur.nl)
+# March 2026
+
 from pcse.soil.lintul_cassava_drunir import drunir
 from pcse.base import ParamTemplate, RatesTemplate, SimulationObject, StatesTemplate
 from pcse.traitlets import Float
@@ -9,6 +13,51 @@ kg_to_g = 1000
 ha_to_m2 = 10000
 
 class soil_water_dynamics_PP(SimulationObject):
+    """
+    Class to simulate soil water dynamics under potential growth condition
+
+    This class simulates a fake water balance in which the soil moisture content is always at field capacity. It is
+    used to run LINTUL Cassava under not-water limiting conditions.
+
+    ** Simulation parameters **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Type    Unit
+    =================  ==============================================  ======  ===========================
+    RDI                Initial rooting depth                           SCr     cm3 water cm-2 ground d-1
+    RDMSOL             Maximum rooting depth                           SCr     cm soil
+    SMFCF              Soil moisture content at field capacity         SCr     m3 water m-3 soil
+    =================  ==============================================  ======  ===========================
+
+    ** State variables **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    SM                 Soil moisture content in rooted soil            Y       cm3 water cm-3 ground
+    W                  Amount of water in rooted soil                  Y       cm3 water cm-2 ground
+    =================  ==============================================  ======  ===========================
+
+    The original R version of LINTUL Cassava did not have an independent soil water module for non-water-limited
+    growth conditions (Ezui et al., 2018; Adiele et al., 2022). Instead, it assumed that irrigation was applied to
+    bring the soil moisture content back to field capacity at any day that the soil moisture content would otherwise
+    drop below field capacity. The disadvantage of this approach is that it makes oxygen stress more likely,
+    especially when the difference between the soil moisture content at field capacity and the soil moisture content
+    above which oxygen stress occurs is small. Indeed, the simulations for potential growth with the original R version
+    showed that oxygen stress did occur at various days at some locations. Since we think that the terms "potential
+    growth" and "non-water limited growth" do not only apply that there is no drought stress but also no oxygen stress
+    due to excess water, we decided not to follow the methodology of the R version of simulating non-water limited
+    growth.
+
+    References:
+    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
+    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488.
+    https://doi.org/10.1007/s13593-020-00649-w
+
+    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
+    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
+    https://doi.org/10.1016/j.fcr.2018.01.033
+    """
 
     class Parameters(ParamTemplate):
         SMFCF = Float()
@@ -47,6 +96,75 @@ class soil_water_dynamics_PP(SimulationObject):
         s.SM = SM
 
 class soil_water_dynamics(SimulationObject):
+    """
+    Class to simulate soil water dynamics
+
+    This class simulate the amount of water and the soil moisture content and the rooted soil. Sources for water are
+    1) effective precipitation, 2) exploration, and 3) irrigation. Sinks for water are 1) root water uptake, 2) soil
+    evaporation 3) drainage, and 4) surface-runoff. The depth of the rooted soil can increase due to root growth.
+
+    ** Simulation parameters **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Type    Unit
+    =================  ==============================================  ======  ===========================
+    DRATE              Maximum drainage rate                           SCr     cm d-1
+    IRRIGF             Faction of amount of water that is applied by
+                       irrigation and the amount of water that is
+                       necessary to bring the soil moisture content
+                       to its value at field capacity.                 SCr     -
+    RDI                Initial rooted soil depth                       SCr     cm soil
+    RRDMAX             Maximum depth of rooted soil                    SCr     cm soil
+    SM0                Soil moisture content at saturation             SCr     cm3 water cm-3 soil
+    SMFCF              Soil moisture content at field capacity         SCr     cm3 water cm-3 soil
+    SMW                Soil moisture content at wilting point          SCr     cm3 water cm-3 soil
+    WCWET              Soil moisture content above which oxygen stress
+                       can occur.                                      SCr     cm3 water cm-3 soil
+    =================  ==============================================  ======  ===========================
+
+    ** State variables **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    DRAIN              Total amount of water lost by drainage          N       cm3 water cm-2 ground
+    RUNOFF             Total amount of water lost by surface-runoff    N       cm3 water cm-2 ground
+    SM                 Soil moisture content                           Y       cm3 water cm-3 soil
+    W                  Amount of water in rooted soil                  Y       cm3 water cm-2 ground
+    =================  ==============================================  ======  ===========================
+
+    ** Rate variables **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    EVS                Rate of change of water in rooted soil due to
+                       transpiration and soil evaporation              N       cm3 water cm-2 ground d-1
+    EXPLOR             Rate of change of water in rooted soil due to
+                       exploration by roots                            N       cm3 water cm-2 ground d-1
+    RDRAIN             Drainage rate                                   N       cm3 water cm-2 ground d-1
+    RIRRIG             Irrigation rate                                 N       cm3 water cm-2 ground d-1
+    RRUNOFF            Surface-runoff rate                             N       cm3 water cm-2 ground d-1
+    RWA                Rate of change of water in rooted soil          N       cm3 water cm-2 ground d-1
+    RTRAIN             Precipitation rate                              N       cm3 water cm-2 ground d-1
+    =================  ==============================================  ======  ===========================
+
+    This class is a Python implementation of the calculations related to soil water dynamics in the R function
+    LINTUL2_CASSAVA_NPK in the R version of the model LINTUL Cassava NPK (Adiele et al., 2022; Ezui et al., 2018)
+
+    Authors LINTUL2_CASSAVA_NPK:     Rob van den Beuken, Joy Adiele, Tom Schut
+    Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
+
+    References:
+    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
+    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488.
+    https://doi.org/10.1007/s13593-020-00649-w
+
+    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
+    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
+    https://doi.org/10.1016/j.fcr.2018.01.033
+    """
+
 
     class Parameters(ParamTemplate):
         DRATE = Float()
