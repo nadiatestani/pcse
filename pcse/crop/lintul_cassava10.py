@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+# Herman Berghuijs (herman.berghuijs@wur.nl), Allard de Wit (allard.dewit@wur.nl), Tom Schut (tom.schut@wur.nl)
+# February 2026
+
 from pcse.base import SimulationObject, ParamTemplate, StatesTemplate, RatesTemplate
 from pcse.crop.lintul_cassava.phenology import phenology
 from pcse.crop.lintul_cassava.canopy_rain_interception import canopy_rain_interception
@@ -14,6 +18,39 @@ from pcse.crop.lintul_cassava.nutrient_stress import npk_stress
 from pcse.traitlets import Instance
 
 class LINTUL_CASSAVA(SimulationObject):
+    """
+    Top level object organizing the different components of the LINTUL Cassava simulation
+    simulation.
+
+    The CropSimulation object organizes the different processes of the crop
+    simulation. Moreover, it contains the parameters, rate and state variables
+    which are relevant at the level of the entire crop. The processes that are
+    implemented as embedded simulation objects consist of:
+
+    1. Phenology (self.phenology)
+    2. Fibrous root growth (self.fibrous_root_growth)
+    3. Canopy rain interception (self.canopy_rain_interception)
+    4. Evapotranspiration (self.evapotranspiration)
+    5. NPK stress effects (self.npk_stress)
+    6. Dormancy and recovery (self.dormancy)
+    7. Leaf senescence (self.leaf_senescence)
+    8. Light interception and growth (self.light_interception_and_growth)
+    9. Biomass partitioning (self.biomass_partitioning)
+    10. Crop nutrient dynamics (self.crop_nutrient_dynamics)
+    11. Green leaf area dynamics (self.green_leaf_area)
+
+    The LINTUL Cassava crop growth model in PCSE is a Python implementation of the LINTUL Cassava
+    model (Ezui et al., 2018; Adiele et al., 2022) that was originally implemented in R.
+
+    References:
+    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
+    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488.
+    https://doi.org/10.1007/s13593-020-00649-w
+
+    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
+    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
+    https://doi.org/10.1016/j.fcr.2018.01.033
+    """
     phenology = Instance(SimulationObject)
     fibrous_root_growth = Instance(SimulationObject)
     penman = Instance(SimulationObject)
