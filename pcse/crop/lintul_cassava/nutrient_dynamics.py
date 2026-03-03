@@ -12,7 +12,6 @@ class crop_nutrient_dynamics(SimulationObject):
     This class calculates the daily rates of N, P, and K uptake in the crop and their partitioning over the different
     organs.
 
-
     ** Simulation parameters **
 
     =================  ==============================================  ======  ===========================
@@ -20,8 +19,9 @@ class crop_nutrient_dynamics(SimulationObject):
     =================  ==============================================  ======  ===========================
     FR_MAX             Fraction of optimal and maximum concentration
                        of N, P, and K in each organ                    SCr     g nutrient g-1 nutrient
-    K_WATER            RFTRA value at which the nutrient uptake rate
-                       is reduced by a half due to water stress        SCr     -
+    K_WATER            Transpiration reduction factor at which the
+                       nutrient uptake rate is reduced by a half due
+                       to water stress                                 SCr     -
     NFLVD              Nitrogen concentration of dead leaves           SCr     g N g-1 DM
     KFLVD              Potassium concentration of dead leaves          SCr     g K g-1 DM
     PFLVD              Phosphorus concentration of dead leaves         SCr     g P g-1 DM
