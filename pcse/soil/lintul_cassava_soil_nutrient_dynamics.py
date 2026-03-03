@@ -19,7 +19,7 @@ class soil_nutrient_dynamics_PP(SimulationObject):
     root uptake. Arbitrary values are assigned to these amount at each simulated day. This class is used to run LINTUL
     Cassava under non-nutrient limited conditions.
 
-    ** State variables **
+    ** Auxillary variables **
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
@@ -63,7 +63,99 @@ class soil_nutrient_dynamics_PP(SimulationObject):
         self.touch()
 
 class soil_nutrient_dynamics(SimulationObject):
+    """
+    Class to simulate N, P, and K dynamics in soil under nutrient limited conditions
 
+    This class simulates the dynamics of the amount of N, P, and K. It distiguishes between the amounts of N, P, and K
+    that are available for plant uptake and those that are not available for plant uptake but become available over
+    time. The latter amounts of N, P, and K are further subdivided into N, P, and K in the soil supply and in the
+    applied fertilizers.
+
+    ** Simulation parameters **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Type     Unit
+    =================  ==============================================  ======  ===========================
+    NMINI              Initial total amount of nitrogen in soil        SCr      g N m-2 ground
+    KMINI              Initial total amount of potassium in soil       SCr      g K m-2 ground
+    K_WATER            Transpiration reduction factor at which the
+                       nutrient uptake rate is reduced by a half due
+                       to water stress                                 SCr     -
+    PMINI              Initial total amount of phosphorus in soil      SCr      g P m-2 ground
+    RTNMINF            Relative rate at which nitrogen becomes
+                       available from applied fertilizers              SCr      d-1
+    RTNMINS            Relative rate at which nitrogen becomes
+                       available from the soil supply                  SCr      d-1
+    RTKMINF            Relative rate at which potassium becomes
+                       available from applied fertilizers              SCr      d-1
+    RTKMINS            Relative rate at which potassium becomes
+                       available from the soil supply                  SCr      d-1
+    RTPMINF            Relative rate at which phosphorus becomes
+                       available from applied fertilizers              SCr      d-1
+    RTPMINS            Relative rate at which phosphorus becomes
+                       available from the soil supply                  SCr      d-1
+    =================  ==============================================  ======  ===========================
+
+    ** State variables **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    NMINF              Amount of nitrogen in applied fertilizers
+                       and not yet available for root uptake           N       g N m-2 ground
+    NMINS              Amount of nitrogen in the soil supply and not
+                       yet available for root uptake                   N       g N m-2 ground
+    NMINT              Amount of nitrogen in the soil that is
+                       available for root uptake.                      N       g N m-2 ground
+    KMINF              Amount of potassium in applied fertilizers
+                       and not yet available for root uptake           N       g K m-2 ground
+    KMINS              Amount of potassium in the soil supply and not
+                       yet available for root uptake                   N       g K m-2 ground
+    KMINT              Amount of potassium in the soil that is
+                       available for root uptake.                      N       g K m-2 ground
+    PMINF              Amount of phosphorus in applied fertilizers
+                       and not yet available for root uptake           N       g P m-2 ground
+    PMINS              Amount of phosphorus in the soil supply and not
+                       yet available for root uptake                   N       g P m-2 ground
+    PMINT              Amount of phosphorus in the soil that is
+                       available for root uptake.                      N       g P m-2 ground
+    =================  ==============================================  ======  ===========================
+
+    ** Rate variables **
+
+    =================  ==============================================  ======  ===========================
+    Name               Description                                     Pbl     Unit
+    =================  ==============================================  ======  ===========================
+    RNMINF             Rate of change of nitrogen amount in applied
+                       fertilizers                                     N       g N m-2 ground d-1
+    RNMINS             Rate of change of nitrogen in the soil supply   N       g N m-2 ground d-1
+    RNMINT             Rate of change of available nitrogen amount     N       g N m-2 ground d-1
+    RKMINF             Rate of change of potassium amount in applied
+                       fertilizers                                     N       g K m-2 ground d-1
+    RKMINS             Rate of change of potassium in the soil supply  N       g K m-2 ground d-1
+    RKMINT             Rate of change of available potassium amount    N       g K m-2 ground d-1
+    RPMINF             Rate of change of phosphorus amount in applied
+                       fertilizers                                     N       g P m-2 ground d-1
+    RPMINS             Rate of change of phosphorus in the soil supply N       g P m-2 ground d-1
+    RPMINT             Rate of change of available phosphorus amount   N       g P m-2 ground d-1
+    =================  ==============================================  ======  ===========================
+
+    This class is a Python implementation of the calculations related to the amounts of N, P, and K in the
+    soil in the R function nutrientdyn in the R version of the model LINTUL Cassava NPK (Adiele et al., 2022; Ezui et
+    al., 2018).
+
+    Authors nutrientdyn:             Rob van den Beuken, Tom Schut
+    Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
+
+    References:
+    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
+    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488.
+    https://doi.org/10.1007/s13593-020-00649-w
+
+    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
+    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
+    https://doi.org/10.1016/j.fcr.2018.01.033
+    """
 
     # Placeholders
     _RFERTN = None
@@ -182,8 +274,8 @@ class soil_nutrient_dynamics(SimulationObject):
 
         # ------------ Fertilizer supply
         # Fertilizer nutrient supply
-        # Pool in the soil which is not yet avalable for plant uptake
-        #        supply rate      rate that becomes available for uptake
+        # Pool in the soil which is not yet available for plant uptake
+        # supply rate rate that becomes available for uptake
         WLIMIT = k.RFTRA / (p.K_WATER + k.RFTRA)
 
         RNMINF = RFERTN - p.RTNMINF * s.NMINF * WLIMIT  # g N m-2 d-1
