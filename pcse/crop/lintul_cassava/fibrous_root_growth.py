@@ -11,7 +11,7 @@ class fibrous_root_growth(SimulationObject):
 
     The class calculates the increase in rooting depth from emergence until a maximum rooting depth is reached.
 
-    ** Simulation parameters **
+   **Simulation parameters**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Type     Unit
@@ -23,7 +23,7 @@ class fibrous_root_growth(SimulationObject):
                        point                                           SCr     cm root
     =================  ==============================================  ======  ===========================
 
-    ** State variables **
+   **State variables**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl      Unit
@@ -31,29 +31,13 @@ class fibrous_root_growth(SimulationObject):
     RD                 Rooting depth                                   Y       cm root
     =================  ==============================================  ======  ===========================
 
-    ** Rate variables **
+   **Rate variables**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl      Unit
     =================  ==============================================  ======  ===========================
     RRD                Rate of change of rooting depth                 N        cm root
     =================  ==============================================  ======  ===========================
-
-    This class is a Python implementation of the calculations related to the growth of rooting depth in the
-    R function LINTUL2_CASSAVA_NPK in the R version of the model LINTUL Cassava NPK (Adiele et al.,
-    2022; Ezui et al., 2018)
-
-    Authors LINTUL2_CASSAVA_NPK:     Rob van den Beuken, Joy Adiele, Tom Schut
-    Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
-
-    References:
-    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
-    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488.
-    https://doi.org/10.1007/s13593-020-00649-w
-
-    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
-    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
-    https://doi.org/10.1016/j.fcr.2018.01.033
 
     """
 

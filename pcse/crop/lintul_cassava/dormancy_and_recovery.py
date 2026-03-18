@@ -15,7 +15,7 @@ class dormancy_and_recovery(SimulationObject):
     soil water content at severe drought. During this period, storage organ dry matter can be redistributed to the
     leaves. At the end of the recovery period, redistribution stops.
 
-    ** Simulation parameters **
+   **Simulation parameters**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Type     Unit
@@ -41,7 +41,7 @@ class dormancy_and_recovery(SimulationObject):
                        can be produced in the redistribution phase.    SCr      g DM m-2 ground
     =================  ==============================================  ======  ===========================
 
-    ** State variables **
+   **State variables**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
@@ -59,7 +59,7 @@ class dormancy_and_recovery(SimulationObject):
                        from storage organs to green leaves.                    g DM m-2 ground
     =================  ==============================================  ======  ===========================
 
-    ** Rate variables **
+   **Rate variables**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
@@ -79,8 +79,7 @@ class dormancy_and_recovery(SimulationObject):
                        green leaves
     =================  ==============================================  ======  ===========================
 
-    ** Auxillary variables **
-    
+   **Auxillary variables**
     
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
@@ -89,22 +88,6 @@ class dormancy_and_recovery(SimulationObject):
                        in the dormancy phase                           Y        -
     PUSHREDIST                                                         Y     
     =================  ==============================================  ======  ===========================    
-
-    This class is a Python implementation of the calculations related to dormancy and recovery in the
-    R function LINTUL2_CASSAVA_NPK in the R version of the model LINTUL Cassava NPK (Adiele et al.,
-    2022; Ezui et al., 2018)
-
-    Authors LINTUL2_CASSAVA_NPK:     Rob van den Beuken, Joy Adiele, Tom Schut
-    Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
-
-    References:
-    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
-    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488.
-    https://doi.org/10.1007/s13593-020-00649-w
-
-    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
-    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
-    https://doi.org/10.1016/j.fcr.2018.01.033
 
     """
 

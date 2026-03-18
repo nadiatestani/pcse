@@ -21,11 +21,11 @@ def afgen2cols(tbl_xyz, x, col_id):
             y1s.append(tbl_xyz[i])
         else:
             y2s.append(tbl_xyz[i])
-    if (col_id == 0):
+    if col_id == 0:
         raise Exception("The first column contains control variables and cannot be the column id")
-    elif (col_id == 1):
+    elif col_id == 1:
         ys = y1s
-    elif (col_id == 2):
+    elif col_id == 2:
         ys = y2s
     else:
         raise Exception("The function afgen2cols only supports table functions with two columns")

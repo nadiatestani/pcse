@@ -16,7 +16,7 @@ class evapotranspiration(SimulationObject):
     occurs. This is used to calculate both the actual transpiration and actual soil evaporation
     rates. Finally, a transpiration reduction factor is calculated.     
     
-    ** Simulation parameters **
+   **Simulation parameters**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Type     Unit
@@ -34,11 +34,11 @@ class evapotranspiration(SimulationObject):
                        occurs                                          SCr      cm3 water cm-3 ground
     =================  ==============================================  ======  ===========================    
     
-    ** State variables **
+   **State variables**
 
     None
 
-    ** Rate variables **
+   **Rate variables**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
@@ -50,7 +50,7 @@ class evapotranspiration(SimulationObject):
     RPTRAN             Potential transpiration rate                    N       cm3 water cm-2 ground d-1
     TRA                Actual transpiration rate                       Y       cm3 water cm-2 ground d-1
 
-    ** Auxillary variables **
+   **Auxillary variables**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
@@ -59,21 +59,9 @@ class evapotranspiration(SimulationObject):
     WCCR               Critical soil moisture content below which
                        drought stress can occur                        Y       cm3 water cm-3 ground
     WCSD               Soil moisture content at severe drought         Y       cm3 water cm-3 ground
+    =================  ==============================================  ======  ===========================
 
-    This class is a Python implementation of the calculations related to evaporation and transpiration in the
-    R function evaptr in the R version of the model LINTUL Cassava NPK (Adiele et al.,2022; Ezui et al., 2018)
 
-    Authors evaptr:                 Rob van den Beuken, Joy Adiele, Tom Schut
-    Authors Python implementation:  Herman Berghuijs, Allard de Wit, Tom Schut
-
-    References:
-    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
-    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488.
-    https://doi.org/10.1007/s13593-020-00649-w
-
-    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
-    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
-    https://doi.org/10.1016/j.fcr.2018.01.033    
     """
     
     class Parameters(ParamTemplate):

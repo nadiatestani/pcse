@@ -164,7 +164,7 @@ class LINTUL_CASSAVA_original(LINTUL_CASSAVA):
 
     This class inherits all functionality from the LINTUL_CASSAVA class, except
     for that it calculates the reference evapotranspiration rate with its native
-    Penman method, instead of using the PCSE functionalities to calcuate this.
+    Penman method, instead of using the PCSE functionalities to calculate this.
 
     The CropSimulation object organizes the different processes of the crop
     simulation. Moreover, it contains the parameters, rate and state variables

@@ -18,7 +18,7 @@ class light_interception_and_growth(SimulationObject):
     The actual dry matter production is also calculated. This can be smaller than the potential dry matter production
     in case of water stress, nutrient stress or suboptimal temperatures.
 
-    ** Simulation parameters **
+   **Simulation parameters**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Type    Unit
@@ -32,7 +32,7 @@ class light_interception_and_growth(SimulationObject):
                        temperature                                     TCr     -
     =================  ==============================================  ======  ===========================
 
-    ** State variables **
+   **State variables**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
@@ -40,7 +40,7 @@ class light_interception_and_growth(SimulationObject):
     PAR                Total amount of intercepted PAR                 Y       MJ PAR m-2 ground
     ================   ==============================================  ======  ===========================
 
-    ** Rate variables **
+   **Rate variables**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
@@ -48,7 +48,7 @@ class light_interception_and_growth(SimulationObject):
     RPAR               Daily rate of PAR interception                  N       MJ PAR m-2 ground d-1
     ================   ==============================================  ======  ===========================
 
-    ** Auxillary variables variables **
+   **Auxillary variables**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
@@ -56,20 +56,6 @@ class light_interception_and_growth(SimulationObject):
     GTOTAL             Rate of total dry matter production             Y       g DM m-2 ground d-1
     =================  ==============================================  ======  ===========================
 
-    This class is a Python implementation of the calculations related to light inteception and growth in the R function
-    LINTUL2_CASSAVA_NPK in theR version of the model LINTUL Cassava NPK (Adiele et al., 2022; Ezui et al., 2018)
-
-    Authors LINTUL2_CASSAVA_NPK:     Rob van den Beuken, Joy Adiele, Tom Schut
-    Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
-
-    References:
-    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
-    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488.
-    https://doi.org/10.1007/s13593-020-00649-w
-
-    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
-    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
-    https://doi.org/10.1016/j.fcr.2018.01.033
     """
     class Parameters(ParamTemplate):
         FPAR = Float()

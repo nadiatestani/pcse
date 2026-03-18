@@ -110,6 +110,11 @@ The PCSE distribution provides several waterbalance modules:
 
 .. autoclass:: pcse.soil.SnowMAUS
 
+.. autoclass:: pcse.soil.lintul_cassava_soil.soil_water_dynamics_PP
+
+.. autoclass:: pcse.soil.lintul_cassava_soil.
+
+
 Nitrogen and Carbon modules
 ---------------------------
 
@@ -239,6 +244,45 @@ Crop simulation processes for LINTUL
 
 .. Crop simulation processes for the ALCEPAS model
 .. ===============================================
+
+
+.. _LINTUL-CASSAVA:
+
+Crop simulation processes for LINTUL-CASSAVA
+============================================
+
+Top level modules for LINTUL-CASSAVA
+------------------------------------
+
+.. autoclass:: pcse.crop.lintul_cassava10.LINTUL_CASSAVA
+
+.. autoclass:: pcse.crop.lintul_cassava10.LINTUL_CASSAVA_NO_NUTRIENT_STRESS
+
+Process modules for LINTUL-CASSAVA
+----------------------------------
+
+.. autoclass:: pcse.crop.lintul_cassava.phenology
+
+
+.. autoclass:: pcse.crop.lintul_cassava.biomass_partitioning
+
+.. autoclass:: pcse.crop.lintul_cassava.canopy_rain_interception
+
+.. autoclass:: pcse.crop.lintul_cassava.dormancy_and_recovery
+
+.. autoclass:: pcse.crop.lintul_cassava.evapotranspiration
+
+.. autoclass:: pcse.crop.lintul_cassava.fibrous_root_growth
+
+.. autoclass:: pcse.crop.lintul_cassava.green_leaf_area
+
+.. autoclass:: pcse.crop.lintul_cassava.leaf_senescence
+
+.. autoclass:: pcse.crop.lintul_cassava.light_interception_and_growth
+
+.. autoclass:: pcse.crop.lintul_cassava.nutrient_dynamics
+
+.. autoclass:: pcse.crop.lintul_cassava.nutrient_stress
 
 
 .. _BaseClasses:

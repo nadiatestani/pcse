@@ -12,7 +12,7 @@ class biomass_partitioning(SimulationObject):
     Simulates allocation of newly produced dry weight to the different organs. The fractions are modified for
     water availability. Nutrient limitation is also assumed to affect partitioning to the roots
 
-    ** Simulation parameters **
+   **Simulation parameters**
 
     ==============  ==============================================  ======  ===========================
      Name           Description                                     Type     Unit
@@ -41,7 +41,7 @@ class biomass_partitioning(SimulationObject):
     ==============  ==============================================  ======  ===========================
 
 
-    ** State variables **
+   **State variables**
 
     ==============  ==============================================  ======  ===========================
      Name           Description                                     Pbl     Unit
@@ -57,7 +57,7 @@ class biomass_partitioning(SimulationObject):
     WRT             Dry weight of fibrous roots                     Y        g DM m-2 ground
     ==============  ==============================================  ======  ===========================
 
-    ** Rate variables **
+   **Rate variables**
 
     ==============  ==============================================  ======  ===========================
      Name           Description                                     Pbl     Unit
@@ -77,7 +77,7 @@ class biomass_partitioning(SimulationObject):
     RWST            Rate of change dry weight of stems              N       g DM m-2 ground d-1
     ==============  ==============================================  ======  ===========================
 
-    ** Auxillary variables **
+   **Auxillary variables**
 
     ==============  ==============================================  ======  ===========================
      Name           Description                                     Pbl     Unit
@@ -87,22 +87,6 @@ class biomass_partitioning(SimulationObject):
     FSO             Partitioning fraction to storage organs          Y      g DM g-1 DM
     FST             Partitioning fraction to stems                   Y      g DM g-1 DM
     ==============  ==============================================  ======  ===========================
-
-    This class is a Python implementation of the biomass partitioning fraction calculations in the
-    R function LINTUL2_CASSAVA_NPK in the R version of the model LINTUL Cassava NPK (Adiele et al.,
-    2022; Ezui et al., 2018)
-
-    Authors LINTUL2_CASSAVA_NPK:     Rob van den Beuken, Joy Adiele, Tom Schut
-    Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
-
-    References:
-    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
-    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488.
-    https://doi.org/10.1007/s13593-020-00649-w
-
-    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
-    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
-    https://doi.org/10.1016/j.fcr.2018.01.033
     """
 
     class Parameters(ParamTemplate):

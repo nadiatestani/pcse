@@ -14,7 +14,7 @@ class leaf_senescence(SimulationObject):
     of the leaf area index. Green leaf tissue can either die due to 1) Ageing, 2) Leaf shedding in case of
     too much self shading, 3) severe drought, or 4) nutrient limitation.
 
-    ** Simulation parameters **
+   **Simulation parameters**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Type     Unit
@@ -44,7 +44,7 @@ class leaf_senescence(SimulationObject):
                        occurs.                                         SCr      cm3 water cm-3 ground
     =================  ==============================================  ======  ===========================
 
-    ** State variales **
+   **State variales**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
@@ -54,9 +54,9 @@ class leaf_senescence(SimulationObject):
     WSOFRACTRANSLO     Amount of storage organ dry matter produced
                        by translocation of senescenced leaf organ
                        dry matter to storage organs.                   N       g DM m-2 ground
+    =================  ==============================================  ======  ===========================
 
-
-    ** Rate variales **
+   **Rate variales**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
@@ -70,20 +70,6 @@ class leaf_senescence(SimulationObject):
                        organ dry matter to storage organs.             Y       g DM m-2 d-1
     =================  ==============================================  ======  ===========================
 
-    This class is a Python implementation of the calculations related to leaf senescence in the R function
-    LINTUL2_CASSAVA_NPK in theR version of the model LINTUL Cassava NPK (Adiele et al., 2022; Ezui et al., 2018)
-
-    Authors LINTUL2_CASSAVA_NPK:     Rob van den Beuken, Joy Adiele, Tom Schut
-    Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
-
-    References:
-    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
-    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488.
-    https://doi.org/10.1007/s13593-020-00649-w
-
-    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
-    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
-    https://doi.org/10.1016/j.fcr.2018.01.033
     """
     class Parameters(ParamTemplate):
         FRACTLLFENHSH = Float()

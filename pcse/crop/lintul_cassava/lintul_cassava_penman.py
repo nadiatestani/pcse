@@ -18,7 +18,7 @@ class penman(SimulationObject):
 
     This class calculates the reference evapotranspiration rate of a bare soil and a crop according to Penman (1948).
 
-    ** Auxillary variables **
+   **Auxillary variables**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
@@ -35,15 +35,6 @@ class penman(SimulationObject):
 
     Authors penman:                  Rob van den Beuken
     Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
-
-    References:
-    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
-    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488.
-    https://doi.org/10.1007/s13593-020-00649-w
-
-    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
-    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
-    https://doi.org/10.1016/j.fcr.2018.01.033
 
     Penman H.L. (1948) Natural evaporation from open water, bare soil, and grass. Proc. Roy. Soc. London. A193: 120-146
     """

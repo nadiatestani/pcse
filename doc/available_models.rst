@@ -9,6 +9,8 @@ The PCSE package implements several crop models that were developed in Wageninge
       WOFOST, LINTUL3 uses a simplified approach for estimating |CO2| assimilation.
     - The LINGRA model for simulating grassland productivity.
     - The ALCEPAS model specifically developed for simulation of onion.
+    - The LINTUL-CASSAVA model developed for simulation cassava under potential, water-limited and N/P/K limited growth.
+
 
 PCSE also provides an implementation of the FAO-WRSI (Water Requirement Satisfaction Index) model which
 computes stress index representing the water shortage experience by the crop
@@ -44,4 +46,8 @@ most models is made up from a set of codes which follow: <modelname><version>_<p
  Lintul10_NWLP_CWB_CNB       Water and Nitrogen limited                                       X            Classic         Classic
  Alcepas10_PP                Potential                                                                     N/A             N/A
  FAO_WRSI10_WLP_CWB          Water-limited                                                                 Classic         N/A
+ Lintul_cassava10_PP         Potential                                                                     N/A             N/A
+ Lintul_cassava10_WLP        Water-limited                                                                 Classic         N/A
+ Lintul_cassava10_NLP        N/P/K limited                                                                 N/A             Classic
+ Lintul_cassava10_WNLP       Water and N/P/K limited                                          X (N/P/K)    Classic         Classic
 =========================== ============================ ============ ====================== ============ =============== ===========

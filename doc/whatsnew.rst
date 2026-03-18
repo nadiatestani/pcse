@@ -5,6 +5,17 @@ An overview of new features and fixes
 #####################################
 
 **********************
+What's new in PCSE 6.1
+**********************
+
+The PCSE 6.1 release has one major update which is the inclusion of the LINTUL-CASSAVA model for simulating
+potential, water and N/P/K limited growth of cassava. See the section on :ref:`LINTUL-CASSAVA`.
+
+Moreover, modules that were not used have been deleted from the source tree such as `taskmanager` and `pcse.db`,
+`pydispatcher` is now a separate dependency instead of included in the PCSE code itself. As a result the dependency
+on SQLAlchemy was dropped from the project.
+
+**********************
 What's new in PCSE 6.0
 **********************
 

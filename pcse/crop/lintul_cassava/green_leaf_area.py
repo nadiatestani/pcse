@@ -13,7 +13,7 @@ class green_leaf_area(SimulationObject):
     The class calculates the growth of the leaf area index from crop emergence. Its growth can be reduced
     by both water stress and nutrient stress.
 
-    ** Simulation parameters **
+   **Simulation parameters**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Type     Unit
@@ -31,7 +31,7 @@ class green_leaf_area(SimulationObject):
                        growth stage ends                               SCr     |C| d
     =================  ==============================================  ======  ===========================
 
-    ** Rate parameters **
+   **Rate parameters**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
@@ -39,29 +39,13 @@ class green_leaf_area(SimulationObject):
     RLAI               Growth rate of leaf area index                  N       m2 leaf m-2 ground d-1
     =================  ==============================================  ======  ===========================
 
-    ** State variables **
+   **State variables**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
     =================  ==============================================  ======  ===========================
     LAI                Leaf area index                                 Y       m2 leaf m-2 ground
     =================  ==============================================  ======  ===========================
-
-    This class is a Python implementation of the calculations related to the dynamics of the green leaf
-    area in the R function GLAI in the R version of the model LINTUL Cassava NPK (Adiele et al., 2022;
-    Ezui et al., 2018)
-
-    Authors GLAI:                   Rob van den Beuken, Joy Adiele, Tom Schut
-    Authors Python implementation:  Herman Berghuijs, Allard de Wit, Tom Schut
-
-    References:
-    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
-    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488.
-    https://doi.org/10.1007/s13593-020-00649-w
-
-    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
-    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
-    https://doi.org/10.1016/j.fcr.2018.01.033
 
     """
 

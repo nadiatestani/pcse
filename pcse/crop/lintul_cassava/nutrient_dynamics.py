@@ -12,7 +12,7 @@ class crop_nutrient_dynamics(SimulationObject):
     This class calculates the daily rates of N, P, and K uptake in the crop and their partitioning over the different
     organs.
 
-    ** Simulation parameters **
+   **Simulation parameters**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Type    Unit
@@ -31,7 +31,7 @@ class crop_nutrient_dynamics(SimulationObject):
     TCNPKT             Time coefficient of N, P, and K translocation   SCr     d
     =================  ==============================================  ======  ===========================
 
-    ** State variables **
+   **State variables**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
@@ -53,7 +53,7 @@ class crop_nutrient_dynamics(SimulationObject):
     APST               Amount of phosphorus in stems                   Y       g P m-2 ground
     =================  ==============================================  ======  ===========================
 
-    ** Rate variables **
+   **Rate variables**
 
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
@@ -90,7 +90,8 @@ class crop_nutrient_dynamics(SimulationObject):
                        stems                                           N       g P m-2 ground d-1
     =================  ==============================================  ======  ===========================
 
-    ** Auxillary variables **
+   **Auxillary variables**
+
     =================  ==============================================  ======  ===========================
     Name               Description                                     Pbl     Unit
     =================  ==============================================  ======  ===========================
@@ -106,17 +107,6 @@ class crop_nutrient_dynamics(SimulationObject):
     pcse.soil.lintul_cassava.lintul_cassava_soil_nutrient_dynamics in
     .../pcse/soil/lintul_cassava_soil_nutrient_dynamics.py.
 
-    Authors nutrientdyn:             Rob van den Beuken, Tom Schut
-    Authors Python implementation:   Herman Berghuijs, Allard de Wit, Tom Schut
-
-    References:
-    Adiele J.G., Schut A.G.T., Ezui K.S., Giller K.E. (2022) LINTUL-Cassava-NPK: A simulation
-    model for nutrient-limited cassava growth. Field Crops Research 281: ARTN 108488.
-    https://doi.org/10.1007/s13593-020-00649-w
-
-    Ezui K.S., Leffelaar P.A., Franke A.C., Mando A., Giller K.E. (2018) Simulating drought impact
-    and mitigation in cassava using the LINTUL model. Field Crops Research 219: 256-272.
-    https://doi.org/10.1016/j.fcr.2018.01.033
     """
 
     class Parameters(ParamTemplate):
