@@ -3,6 +3,7 @@
 # Allard de Wit (allard.dewit@wur.nl), March 2024
 
 import unittest
+make_suite = unittest.defaultTestLoader.loadTestsFromTestCase
 from datetime import date
 import yaml
 from ..agromanager import AgroManager
@@ -273,14 +274,14 @@ class TestAgroManager8(unittest.TestCase):
 def suite():
     """ This defines all the tests of a module"""
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestAgroManager1))
-    suite.addTest(unittest.makeSuite(TestAgroManager2))
-    suite.addTest(unittest.makeSuite(TestAgroManager3))
-    suite.addTest(unittest.makeSuite(TestAgroManager4))
-    suite.addTest(unittest.makeSuite(TestAgroManager5))
-    suite.addTest(unittest.makeSuite(TestAgroManager6))
-    suite.addTest(unittest.makeSuite(TestAgroManager7))
-    suite.addTest(unittest.makeSuite(TestAgroManager8))
+    suite.addTest(make_suite(TestAgroManager1))
+    suite.addTest(make_suite(TestAgroManager2))
+    suite.addTest(make_suite(TestAgroManager3))
+    suite.addTest(make_suite(TestAgroManager4))
+    suite.addTest(make_suite(TestAgroManager5))
+    suite.addTest(make_suite(TestAgroManager6))
+    suite.addTest(make_suite(TestAgroManager7))
+    suite.addTest(make_suite(TestAgroManager8))
     return suite
 
 if __name__ == '__main__':

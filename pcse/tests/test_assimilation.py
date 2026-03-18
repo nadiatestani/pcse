@@ -2,6 +2,7 @@
 # Copyright (c) 2004-2024 Wageningen Environmental Research, Wageningen-UR
 # Allard de Wit (allard.dewit@wur.nl), March 2024
 import unittest
+make_suite = unittest.defaultTestLoader.loadTestsFromTestCase
 from datetime import date
 
 from ..base import VariableKiosk
@@ -60,7 +61,7 @@ class Test_WOFOST_Assimilation(unittest.TestCase):
 def suite():
     """ This defines all the tests of a module"""
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(Test_WOFOST_Assimilation))
+    suite.addTest(make_suite(Test_WOFOST_Assimilation))
     return suite
 
 if __name__ == '__main__':

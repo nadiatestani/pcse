@@ -3,6 +3,7 @@
 # Allard de Wit (allard.dewit@wur.nl), March 2024
 import os
 import unittest
+make_suite = unittest.defaultTestLoader.loadTestsFromTestCase
 import csv
 import math
 from datetime import datetime
@@ -80,10 +81,10 @@ class Test_PenmanMonteith4(PenmanMonteith_TestingTemplate):
 def suite():
     """ This defines all the tests of a module"""
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(Test_PenmanMonteith1))
-    suite.addTest(unittest.makeSuite(Test_PenmanMonteith2))
-    suite.addTest(unittest.makeSuite(Test_PenmanMonteith3))
-    suite.addTest(unittest.makeSuite(Test_PenmanMonteith4))
+    suite.addTest(make_suite(Test_PenmanMonteith1))
+    suite.addTest(make_suite(Test_PenmanMonteith2))
+    suite.addTest(make_suite(Test_PenmanMonteith3))
+    suite.addTest(make_suite(Test_PenmanMonteith4))
     return suite
 
 if __name__ == '__main__':

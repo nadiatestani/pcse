@@ -18,6 +18,7 @@ Functions defined here:
 import os
 import random
 import unittest
+make_suite = unittest.defaultTestLoader.loadTestsFromTestCase
 
 import pandas as pd
 import sqlite3
@@ -103,7 +104,8 @@ class WofostOutputRetriever:
         if not ix.any():
             msg = f"cannot find simulation results for day {day} and variable {variable}"
             raise RuntimeError(msg)
-        value = self.df_sim_results.loc[ix, variable][0]
+        # import pdb; pdb.set_trace()
+        value = self.df_sim_results.loc[ix, variable].values[0]
         return float(value)
 
 

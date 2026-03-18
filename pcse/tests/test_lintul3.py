@@ -6,6 +6,7 @@ Created on 30 Apr 2015
 from __future__ import print_function
 import os, sys
 import unittest
+make_suite = unittest.defaultTestLoader.loadTestsFromTestCase
 import csv
 import yaml
 
@@ -32,13 +33,13 @@ class TestLINTUL3_SpringWheat(unittest.TestCase):
         if self.write_ref_results:
             self._write_ref_results()
 
-    def _write_ref_results(self):
-        """writes simulation results to CSV file.
+    def _write_ref_results(self, fname_refresults):
+        """writes simulation results to CSV file `fname_refresults`
 
         Useful only for generating a new reference simulation result
         if you change the set of state variables in conf/lintul3.conf"""
         header = sorted(self.output[0].keys())
-        with open("d:\lintul3_reference_results.csv", "wb") as fp:
+        with open(fname_refresults, "wb") as fp:
             writer = csv.DictWriter(fp, header)
             writer.writeheader()
             writer.writerows(self.output)
@@ -80,7 +81,7 @@ class TestLINTUL3_SpringWheat(unittest.TestCase):
 def suite():
     """ This defines all the tests of a module"""
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(TestLINTUL3_SpringWheat))
+    suite.addTest(make_suite(TestLINTUL3_SpringWheat))
     return suite
 
 if __name__ == '__main__':
