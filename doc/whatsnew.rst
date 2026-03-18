@@ -15,6 +15,8 @@ Moreover, modules that were not used have been deleted from the source tree such
 `pydispatcher` is now a separate dependency instead of included in the PCSE code itself. As a result the dependency
 on SQLAlchemy was dropped from the project.
 
+Finally, the test suite was fixed for python 3.13+.
+
 **********************
 What's new in PCSE 6.0
 **********************

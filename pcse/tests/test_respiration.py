@@ -3,6 +3,7 @@
 # Allard de Wit (allard.dewit@wur.nl), March 2024
 
 import unittest
+make_suite = unittest.defaultTestLoader.loadTestsFromTestCase
 from datetime import date
 
 from ..base import VariableKiosk
@@ -41,7 +42,7 @@ class Test_WOFOSTMaintenanceRespiration(unittest.TestCase):
 def suite():
     """ This defines all the tests of a module"""
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(Test_WOFOSTMaintenanceRespiration))
+    suite.addTest(make_suite(Test_WOFOSTMaintenanceRespiration))
     return suite
 
 if __name__ == '__main__':

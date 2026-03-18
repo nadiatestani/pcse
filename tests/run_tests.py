@@ -4,6 +4,7 @@
 """This runs the YAML unittests by processing the various YAML test file in the folder `test_data`
 """
 import unittest
+make_suite = unittest.defaultTestLoader.loadTestsFromTestCase
 import os
 import glob
 
@@ -110,6 +111,6 @@ def make_test_suite(quick=True):
             test_class = type(fname, (PCSETestCaseYAML,), {"YAML_test_input_fname": fname,
                                                            "crop_simobj": wrapped_simobj,
                                                            "soil_simobj": soil_simobj})
-            suite.addTest(unittest.makeSuite(test_class))
+            suite.addTest(make_suite(test_class))
 
     return suite

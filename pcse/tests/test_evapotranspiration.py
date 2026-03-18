@@ -2,6 +2,7 @@
 # Copyright (c) 2004-2024 Wageningen Environmental Research, Wageningen-UR
 # Allard de Wit (allard.dewit@wur.nl), March 2024
 import unittest
+make_suite = unittest.defaultTestLoader.loadTestsFromTestCase
 from datetime import date
 
 from pcse.crop.wofost.evapotranspiration import Evapotranspiration
@@ -119,9 +120,9 @@ class Test_WaterLimitedEvapotranspiration2(unittest.TestCase):
 def suite():
     """ This defines all the tests of a module"""
     suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(Test_PotentialEvapotranspiration))
-    suite.addTest(unittest.makeSuite(Test_WaterLimitedEvapotranspiration1))
-    suite.addTest(unittest.makeSuite(Test_WaterLimitedEvapotranspiration2))
+    suite.addTest(make_suite(Test_PotentialEvapotranspiration))
+    suite.addTest(make_suite(Test_WaterLimitedEvapotranspiration1))
+    suite.addTest(make_suite(Test_WaterLimitedEvapotranspiration2))
     return suite
 
 if __name__ == '__main__':
