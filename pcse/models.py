@@ -101,6 +101,9 @@ class Lintul10_NWLP_CWB_CNB(Engine):
     __nitrogenbalance__ = "CNB"
 
 class Lintul_Cassava10_PP(Engine):
+    """The LINTUL-CASSAVA model for simulation of cassava growth and productivity under
+    potential production conditions.
+    """
     config = "Lintul_cassava10_PP.conf"
     __productionlevel__ = "PP"
     __cropmodel__ = "LINTUL_CASSAVA"
@@ -108,21 +111,27 @@ class Lintul_Cassava10_PP(Engine):
     __waterbalance__ = None
     __nitrogenbalance__ = None
 
-class Lintul_Cassava10_WLP(Engine):
-    config = "Lintul_cassava10_WLP.conf"
+class Lintul_Cassava10_WLP_CWB(Engine):
+    """The LINTUL-CASSAVA model for simulation of cassava growth and productivity under
+    water-limited production conditions using the simple waterbalance approach
+    """
+    config = "Lintul_cassava10_WLP_CWB.conf"
     __productionlevel__ = "WLP"
     __cropmodel__ = "LINTUL_CASSAVA"
     __cropmodelversion__ = "1.0"
-    __waterbalance__ = None
+    __waterbalance__ = "CWB"
     __nitrogenbalance__ = None
 
-class Lintul_Cassava10_WNLP(Engine):
-    config = "Lintul_cassava10_WNLP.conf"
-    __productionlevel__ = "WNLP"
+class Lintul_Cassava10_NWLP_CWB_CNB(Engine):
+    """The LINTUL-CASSAVA model for simulation of cassava growth and productivity under
+    nutrient and water-limited production conditions using the simple approaches
+    """
+    config = "Lintul_cassava10_NWLP_CWB_CNB.conf"
+    __productionlevel__ = "NWLP"
     __cropmodel__ = "LINTUL_CASSAVA"
     __cropmodelversion__ = "1.0"
-    __waterbalance__ = None
-    __nitrogenbalance__ = None
+    __waterbalance__ = "CWB"
+    __nitrogenbalance__ = "CNB"
 
 class Lintul_Cassava10_NLP(Engine):
     config = "Lintul_cassava10_WNLP.conf"
